@@ -1,0 +1,11 @@
+<h1>All books</h1>
+{% for word in object_list %}
+<ul>
+    <li>id: {{ word.user_id }}</li>
+    <li>word: {{ word.word }}</li>
+    <li>mean: {{ word.mean }}</li>
+    <li>発音: {{ word.pronunce }}</li>
+    <li>genre: {{ word.genre }}</li>
+    <li>color: {{ word.color }}</li>
+</ul>
+{% endfor %}
