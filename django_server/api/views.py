@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from rest_framework import generics
 from .models import Word
+from django.contrib.auth.models import User
 from .serializers import WordSerializer
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse, HttpResponse
@@ -21,7 +23,25 @@ class WordAPIView(generics.ListAPIView):
     serializer_class = WordSerializer
 
 
+class SignUpAPIView(generics.CreateAPIView):
+    def post(self, request):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if username is None or password is None:
+            return Response(status.HTTP_400_BAD_REQUEST)
+
+        try:
+            User.objects.get(username=username)
+            return Response(status.HTTP_400_BAD_REQUEST)
+        except:
+            user = User.objects.create_user(username, '', password)
+            return Response(status.HTTP_201_CREATED)
+
+
 class MyWordAPIView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         id = request.user.id
         queryset = Word.objects.filter(user_id=id)
@@ -40,7 +60,6 @@ class MyWordAPIView(generics.ListAPIView):
             genre=request.POST.get('genre'),
             color=request.POST.get('color'),
         )
-
         new_word.save()
 
         return Response(status=status.HTTP_201_CREATED)
