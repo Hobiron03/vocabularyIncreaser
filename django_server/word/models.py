@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class Word(models.Model):
+class Word22(models.Model):
     user_id = models.IntegerField()
     word = models.CharField(max_length=100)
     mean = models.CharField(max_length=100)
