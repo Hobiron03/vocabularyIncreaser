@@ -1,0 +1,11 @@
+.topic-top{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #037DE5;
+
+    margin-top: 20px;
+}
+
+.count-word{
+    margin-top: 3px;
+}
