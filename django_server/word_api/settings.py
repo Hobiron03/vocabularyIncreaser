@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 
     # サードパーティ
     'rest_framework',
+    'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +50,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # new topに置く
+    'django.middleware.common.CommonMiddleware',  # new
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -142,3 +146,10 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
 }
+
+# 許可するオリジン
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:4200',
+]
+# レスポンスを公開する
+CORS_ALLOW_CREDENTIALS = True

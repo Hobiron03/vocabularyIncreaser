@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from .models import Word
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from .serializers import WordSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -37,6 +38,15 @@ class SignUpAPIView(generics.CreateAPIView):
         except:
             user = User.objects.create_user(username, '', password)
             return Response(status.HTTP_201_CREATED)
+
+
+class LogoutAPIView(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        logout(request)
+
+        return Response(status.HTTP_200_OK)
 
 
 class MyWordAPIView(generics.ListAPIView):
