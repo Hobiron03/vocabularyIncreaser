@@ -76,3 +76,24 @@ class DeleteMyWordAPIView(generics.DestroyAPIView):
         word_id = request.POST.get('id')
         Word.objects.filter(pk=word_id).delete()
         return Response(status=status.HTTP_200_OK)
+
+
+class UpdateMyWordAPIView(generics.UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        word_id = request.POST.get('id')
+
+        print(word_id)
+
+        if word_id is None:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        Word.objects.filter(pk=word_id).update(
+            word=request.POST.get('word'),
+            mean=request.POST.get('mean'),
+            pronounce=request.POST.get('pronounce'),
+            genre=request.POST.get('genre'),
+            color=request.POST.get('color'),
+        )
+        return Response(status=status.HTTP_200_OK)
