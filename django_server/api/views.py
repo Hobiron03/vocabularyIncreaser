@@ -43,13 +43,17 @@ class MyWordAPIView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        id = request.user.id
-        queryset = Word.objects.filter(user_id=id)
+        user_id = request.user.id
+        queryset = Word.objects.filter(user_id=user_id)
         json_serializer = serializers.get_serializer("json")()
         qs_json = json_serializer.serialize(
             queryset, ensure_ascii=False)
 
         return HttpResponse(qs_json)
+
+
+class AddMyWordAPIView(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         new_word = Word.objects.create(
@@ -63,3 +67,12 @@ class MyWordAPIView(generics.ListAPIView):
         new_word.save()
 
         return Response(status=status.HTTP_201_CREATED)
+
+
+class DeleteMyWordAPIView(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        word_id = request.POST.get('id')
+        Word.objects.filter(pk=word_id).delete()
+        return Response(status=status.HTTP_200_OK)
