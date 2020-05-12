@@ -1,8 +1,48 @@
 .card{
     width: 230px;
     height: 250px;
-    background-color: red;
+
+    margin-bottom: 25px;
+
+    transition: all 0.2s;
 }
+
+.card:hover{
+    cursor: pointer;
+    transform:scale(1.05,1.05);
+}
+
+.top{
+    height: 125px;
+    background-color: #69BFF5;    
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top p{
+    margin: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+}
+
+.under{
+    height: 125px;
+    background-color: rgb(255, 255, 255);    
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.under p{
+    margin: 10px;
+    font-size: 12px;
+}
+
+
 
 .card-list{
     display: flex;

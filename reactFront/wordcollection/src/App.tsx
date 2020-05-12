@@ -2,17 +2,18 @@ import React from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import Container from '@material-ui/core/Container';
-import Card from './components/Card/Card';
 import Topic from './components/Topic/Topic';
+import Content from './components/Content/Content';
+
+
 
 const App = () => {
   return (
-    // mainpage
     <div className="App">
       <Header></Header>
       <Container maxWidth="lg">
         <Topic></Topic>
-        <Card></Card>
+        <Content></Content>
       </Container>
     </div>
   );

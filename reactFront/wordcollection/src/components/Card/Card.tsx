@@ -1,46 +1,31 @@
 import React from 'react';
 import './Card.css';
 import Paper from '@material-ui/core/Paper';
+import { Color, colors } from '@material-ui/core';
 
-const Card = () => {
+interface CardProps {
+    word: string;
+    mean: string;
+    color: string;
+};
+
+const Card = (props: CardProps) => {
+
     return (
         <div>
             <div className="card-list">
                 <div className="card">
                     <Paper elevation={3} square>
-                        <div className="top">
-                            <h3>ことば</h3>
+                        <div className="top" style={{ backgroundColor: props.color }} >
+                            <p>{props.word}</p>
                         </div>
 
                         <div className="under">
+                            <p>{props.mean}</p>
                         </div>
                     </Paper>
                 </div>
-                <div className="card">
-                    <Paper elevation={3} square>
-                        Hello
-                    </Paper>
-                </div>
-                <div className="card">
-                    <Paper elevation={3} square>
-                        Hello
-                    </Paper>
-                </div>
-                <div className="card">
-                    <Paper elevation={3} square>
-                        Hello
-                    </Paper>
-                </div>
-                <div className="card">
-                    <Paper elevation={3} square>
-                        Hello
-                    </Paper>
-                </div>
-                <div className="card">
-                    <Paper elevation={3} square>
-                        Hello
-                    </Paper>
-                </div>
+
             </div>
         </div>
     )
