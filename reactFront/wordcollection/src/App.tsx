@@ -13,7 +13,7 @@ const App = () => {
 
   const initialState = {
     words: [],
-    genre: [],
+    currentGenre: ['ALL'],
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 

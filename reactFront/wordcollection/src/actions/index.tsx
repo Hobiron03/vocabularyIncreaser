@@ -5,4 +5,5 @@ export const DELETE_ALL_WORD = 'DELETE_ALL_WORD';
 export const NARROW_DOWN_WORD = 'NARROW_DOWN_WORD';
 
 //genre
-export const ADD_GENRE = 'ADD_GENRE';
+export const SET_CURRENT_GENRE = 'SET_CURRENT_GENRE';
+export const ALL_GENRE = 'ALL_GENRE';

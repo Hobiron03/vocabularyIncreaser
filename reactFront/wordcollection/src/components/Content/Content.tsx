@@ -4,7 +4,7 @@ import Card from '../Card/Card';
 import AppContext from '../../contexts/AppContext';
 import {
   ADD_NEW_WORD,
-  NARROW_DOWN_WORD,
+  SET_CURRENT_GENRE,
 } from '../../actions';
 
 import axios from 'axios';
@@ -170,7 +170,8 @@ const Content = () => {
             <div className="word-list">
               {
                 state.words.map((data: wordData, index: number) => {
-                  return <Card key={index} word={data.word} mean={data.mean} color={data.color}></Card>
+                  if (state.currentGenre[0] === data.genre || state.currentGenre[0] === 'ALL')
+                    return <Card key={index} word={data.word} mean={data.mean} color={data.color}></Card>
                 })
               }
             </div>
@@ -181,11 +182,31 @@ const Content = () => {
     }
   }
 
+  const narrowDownENG = () => {
+    dispatch({
+      type: SET_CURRENT_GENRE,
+      currentGenre: '英語',
+    });
+  }
+
+  const narrowDownAll = () => {
+    dispatch({
+      type: SET_CURRENT_GENRE,
+      currentGenre: 'ALL',
+    });
+  }
+
   return (
     <div className="content">
       {renderWordList()}
+      <button onClick={() => {
+        narrowDownENG();
+      }}>絞り込み英語</button>
+      <button onClick={() => {
+        narrowDownAll();
+      }}>全て</button>
     </div>
   )
 };
 
-export default Content;
+export default Content

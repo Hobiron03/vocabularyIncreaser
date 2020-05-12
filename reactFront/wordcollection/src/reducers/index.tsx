@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
 import words from './words';
-import genre from './genre';
+import currentGenre from './currentGenre';
 
-export default combineReducers({ words, genre });
+export default combineReducers({ words, currentGenre });
