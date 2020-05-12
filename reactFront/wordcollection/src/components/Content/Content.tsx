@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './Content.css';
 import Card from '../Card/Card';
+import AppContext from '../../contexts/AppContext';
+import {
+    ADD_NEW_WORD,
+} from '../../actions';
 
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -27,6 +31,8 @@ interface wordData {
 };
 
 const Content = () => {
+
+    const { state, dispatch } = useContext(AppContext);
 
     const [myWordList, setMyWordList] = useState<wordData[]>(
         [
@@ -126,8 +132,11 @@ const Content = () => {
 
             }).then(response => {
                 const currentWordData: wordData[] = myWordList;
-                response.data.forEach((data: wordData) => {
-                    currentWordData.push(data);
+                response.data.forEach((word: wordData) => {
+                    dispatch({
+                        type: ADD_NEW_WORD,
+                        word,
+                    })
                 });
                 setMyWordList(currentWordData);
                 setIsLoading(false);
@@ -157,7 +166,7 @@ const Content = () => {
                     >
                         <div className="word-list">
                             {
-                                myWordList.map((data, index) => {
+                                state.words.map((data: wordData, index: number) => {
                                     return <Card key={index} word={data.word} mean={data.mean} color={data.color}></Card>
                                 })
                             }
