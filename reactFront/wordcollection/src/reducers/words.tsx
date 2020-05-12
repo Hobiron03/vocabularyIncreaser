@@ -1,6 +1,8 @@
 import {
     ADD_NEW_WORD,
     DELETE_WORD,
+    DELETE_ALL_WORD,
+    NARROW_DOWN_WORD,
 } from '../actions/index';
 
 interface wordData {
@@ -16,14 +18,20 @@ interface wordData {
 interface wordAction {
     type: string,
     word: wordData,
+    currentGenre: string,
 }
 
-const words = (state: wordData[] = [], action: wordAction) => {
+const words = (state: wordData[] = [], action: wordAction): wordData[] => {
     switch (action.type) {
         case ADD_NEW_WORD:
             const newWord = action.word;
             return [...state, newWord];
 
+        case NARROW_DOWN_WORD:
+            if (action.currentGenre !== 'ALL') {
+                return state.filter(word => word.genre === action.currentGenre);
+            }
+            return state;
         default:
             return state;
     }
