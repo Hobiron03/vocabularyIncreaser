@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Content.css';
 import Card from '../Card/Card';
+
+import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Fade from '@material-ui/core/Fade';
+
 
 enum COLORS {
     WATERBLUE = '#69BFF5',
@@ -19,9 +24,25 @@ interface wordData {
     pronounce: string;
     genre: string;
     color: string;
-}
+};
 
 const Content = () => {
+
+    const [myWordList, setMyWordList] = useState<wordData[]>(
+        [
+            {
+                id: 0,
+                user_id: 0,
+                word: "初めまして",
+                mean: "言葉集めへようこそ",
+                pronounce: "ハロー",
+                genre: "英語",
+                color: "",
+            },
+        ]
+    );
+
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const dummyData: wordData[] = [
         {
@@ -98,16 +119,59 @@ const Content = () => {
         },
     ]
 
+    //Fetch data from http://127.0.0.1:8000/api/word/
+    useEffect(() => {
+        const fetchWordData = async () => {
+            await axios.get('http://127.0.0.1:8000/api/word/', {
+
+            }).then(response => {
+                const currentWordData: wordData[] = myWordList;
+                response.data.forEach((data: wordData) => {
+                    currentWordData.push(data);
+                });
+                setMyWordList(currentWordData);
+                setIsLoading(false);
+            }).catch(error => {
+                console.log(error);
+            });
+        };
+        fetchWordData();
+    }, []);
+
+
+    const renderWordList = () => {
+        if (isLoading) {
+            return (
+                <div className="loading">
+                    <CircularProgress></CircularProgress>
+                    <p>Now Loading</p>
+                </div>
+            )
+        }
+        else {
+            return (
+                <div>
+                    <Fade
+                        in={!isLoading}
+                        {...(!isLoading ? { timeout: 600 } : {})}
+                    >
+                        <div className="word-list">
+                            {
+                                myWordList.map((data, index) => {
+                                    return <Card key={index} word={data.word} mean={data.mean} color={data.color}></Card>
+                                })
+                            }
+                        </div>
+                    </Fade>
+
+                </div>
+            );
+        }
+    }
 
     return (
         <div className="content">
-            <div className="word-list">
-                {
-                    dummyData.map((data) => {
-                        return <Card word={data.word} mean={data.mean} color={data.color}></Card>
-                    })
-                }
-            </div>
+            {renderWordList()}
         </div>
     )
 };
