@@ -7,6 +7,10 @@ import {
   SET_CURRENT_GENRE,
 } from '../../actions';
 
+import {
+  useHistory,
+} from 'react-router-dom';
+
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fade from '@material-ui/core/Fade';
@@ -31,125 +35,65 @@ interface wordData {
   color: string;
 };
 
-const Content = () => {
+const Content = (props) => {
+  const history = useHistory();
 
   const { state, dispatch } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [wordNum, setWordNum] = useState<number>(0);
 
-  const [myWordList, setMyWordList] = useState<wordData[]>(
-    [
-      {
-        id: 0,
-        user_id: 0,
-        word: "初めまして",
-        mean: "言葉集めへようこそ",
-        pronounce: "ハロー",
-        genre: "英語",
-        color: "",
-      },
-    ]
-  );
-
-  const dummyData: wordData[] = [
-    {
-      id: 1,
-      user_id: 1,
-      word: "Hello",
-      mean: "こんにちは",
-      pronounce: "ハロー",
-      genre: "英語",
-      color: "",
-    },
-    {
-      id: 2,
-      user_id: 1,
-      word: "罹患する",
-      mean: "「罹患」とは「病気にかかること」を意味する単語で、「罹患者」や「罹患率」という表現でよく用いられます",
-      pronounce: "りかんする",
-      genre: "漢字",
-      color: COLORS.NAVIBLUE,
-    },
-    {
-      id: 3,
-      user_id: 1,
-      word: "怒れる拳笑顔に当たらず",
-      mean: "怒って振り上げた拳も、笑顔の相手には拍子抜けがして打ち下ろせないように、高圧的な態度で出てきた相手には、優しい態度で接するほうが効果があるという教え。",
-      pronounce: "",
-      genre: "",
-      color: COLORS.PINK,
-    },
-    {
-      id: 4,
-      user_id: 2,
-      word: "２番だょ",
-      mean: "user_id: 2のデータ",
-      pronounce: "",
-      genre: "漢字",
-      color: COLORS.ORANGE,
-    },
-    {
-      id: 5,
-      user_id: 2,
-      word: "怒れる拳笑顔に当たらず",
-      mean: "怒って振り上げた拳も、笑顔の相手には拍子抜けがして打ち下ろせないように、高圧的な態度で出てきた相手には、優しい態度で接するほうが効果があるという教え。",
-      pronounce: "",
-      genre: "",
-      color: COLORS.GREEN,
-    },
-    {
-      id: 4,
-      user_id: 1,
-      word: "２番だょ",
-      mean: "user_id: 2のデータ",
-      pronounce: "",
-      genre: "漢字",
-      color: COLORS.ORANGE,
-    },
-    {
-      id: 5,
-      user_id: 1,
-      word: "怒れる拳笑顔に当たらず",
-      mean: "怒って振り上げた拳も、笑顔の相手には拍子抜けがして打ち下ろせないように、高圧的な態度で出てきた相手には、優しい態度で接するほうが効果があるという教え。",
-      pronounce: "",
-      genre: "",
-      color: COLORS.GREEN,
-    },
-    {
-      id: 5,
-      user_id: 1,
-      word: "怒れる拳笑顔に当たらず",
-      mean: "怒って振り上げた拳も、笑顔の相手には拍子抜けがして打ち下ろせないように、高圧的な態度で出てきた相手には、優しい態度で接するほうが効果があるという教え。",
-      pronounce: "",
-      genre: "",
-      color: COLORS.GREEN,
-    },
-  ]
-
-  //Fetch data from http://127.0.0.1:8000/api/word/
+  //リロード時にログイン状態を取得
   useEffect(() => {
-    const fetchWordData = async () => {
-      await axios.get('http://127.0.0.1:8000/api/word/', {
-
-      }).then(response => {
-        const currentWordData: wordData[] = myWordList;
-
-        response.data.forEach((word: wordData) => {
-          dispatch({
-            type: ADD_NEW_WORD,
-            word,
-          });
-        });
-        setMyWordList(currentWordData);
-        setIsLoading(false);
-
-      }).catch(error => {
-        console.log(error);
-      });
-
-    };
-    fetchWordData();
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      console.log("jwtあります！！！");
+      axios.get('http://127.0.0.1:8000/api/validation/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${jwt}`
+        },
+      })
+        .then(function (response) {
+        })
+        .catch(function (error) {
+          console.log(error);
+          history.push("/");
+        })
+    } else {
+      history.push("/");
+    }
+    console.log("普通");
   }, []);
+
+  //Fetch my word data from http://127.0.0.1:8000/api/myword/
+  useEffect(() => {
+    const fetchMyWordData = async () => {
+      const jwt = localStorage.getItem('jwt');
+      await axios.get('http://127.0.0.1:8000/api/fetchmyword/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${jwt}`
+        },
+      })
+        .then(response => {
+          response.data.forEach((wordData) => {
+            console.log(wordData.fields);
+            const word = wordData.fields;
+            dispatch({
+              type: ADD_NEW_WORD,
+              word,
+            });
+          });
+          setIsLoading(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    }
+    fetchMyWordData();
+  }, []);
+
+
 
 
   const renderWordList = () => {

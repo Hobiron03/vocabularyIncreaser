@@ -26,9 +26,20 @@ const Home = (props) => {
   //GETしてダメだったらそのまま
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-
     if (jwt) {
-
+      console.log("jwtあります！！！");
+      axios.get('http://127.0.0.1:8000/api/validation/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${jwt}`
+        },
+      })
+        .then(function (response) {
+          history.push("/mypage");
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
     }
   }, []);
 

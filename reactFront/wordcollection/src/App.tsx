@@ -1,9 +1,8 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
 } from "react-router-dom";
 
