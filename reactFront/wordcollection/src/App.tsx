@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,6 +25,10 @@ const App = () => {
     currentGenre: ['ALL'],
   };
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    console.log("App.tsx")
+  }, []);
 
   return (
     <Router>
