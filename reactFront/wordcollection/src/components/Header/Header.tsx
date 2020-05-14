@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,12 +13,19 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import LeftDrawer from './LeftDrawer/LeftDrawer';
+import Drawer from '@material-ui/core/Drawer';
+
 
 
 const Header = () => {
+
+
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
+
+    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -98,8 +105,17 @@ const Header = () => {
         console.log(e.target.value);
     }
 
+    const anchor = "left";
     return (
         <div className={classes.grow} >
+            <Drawer anchor={anchor} open={isDrawerOpen} onClose={() => { setIsDrawerOpen(false) }}>
+                <ul>
+                    <li>こんにちは</li>
+                    <li>こんにちは</li>
+                    <li>こんにちは</li>
+                    <li>こんにちは</li>
+                </ul>
+            </Drawer>
             <AppBar position="static" style={{ background: '#037DE5' }}>
                 <Toolbar>
                     <IconButton
@@ -107,6 +123,11 @@ const Header = () => {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={() => {
+                            setIsDrawerOpen(true)
+                            console.log(isDrawerOpen);
+
+                        }}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -131,7 +152,7 @@ const Header = () => {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
-        </div>
+        </div >
     );
 }
 

@@ -31,8 +31,8 @@ const App = () => {
 
   return (
     <Router>
-
       <Switch>
+
         <Route exact path="/mypage">
           <AppContext.Provider value={{ state, dispatch }}>
             <div className="App">

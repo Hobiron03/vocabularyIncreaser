@@ -25,6 +25,8 @@ const words = (state: wordData[] = [], action: wordAction): wordData[] => {
         case ADD_NEW_WORD:
             const newWord = action.word;
             return [...state, newWord];
+        case DELETE_ALL_WORD:
+            return [];
         default:
             return state;
     }

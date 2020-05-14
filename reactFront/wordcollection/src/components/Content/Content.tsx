@@ -5,6 +5,7 @@ import AppContext from '../../contexts/AppContext';
 import {
   ADD_NEW_WORD,
   SET_CURRENT_GENRE,
+  DELETE_ALL_WORD,
 } from '../../actions';
 
 import {
@@ -40,7 +41,21 @@ const Content = (props) => {
 
   const { state, dispatch } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [wordNum, setWordNum] = useState<number>(0);
+
+
+  const init = () => {
+    dispatch({
+      type: SET_CURRENT_GENRE,
+      currentGenre: 'ALL',
+    });
+
+    //ブラウザバックの時に増殖するのを防ぐ
+    dispatch({
+      type: DELETE_ALL_WORD,
+    });
+  }
 
   //リロード時にログイン状態を取得
   useEffect(() => {
@@ -52,21 +67,21 @@ const Content = (props) => {
           'Content-Type': 'application/json',
           'Authorization': `JWT ${jwt}`
         },
+      }).then(response => {
+        setIsLogin(true);
+      }).catch(error => {
+        console.log(error);
+        history.push("/");
       })
-        .then(function (response) {
-        })
-        .catch(function (error) {
-          console.log(error);
-          history.push("/");
-        })
     } else {
       history.push("/");
     }
-    console.log("普通");
   }, []);
 
   //Fetch my word data from http://127.0.0.1:8000/api/myword/
   useEffect(() => {
+    init();
+
     const fetchMyWordData = async () => {
       const jwt = localStorage.getItem('jwt');
       await axios.get('http://127.0.0.1:8000/api/fetchmyword/', {
@@ -123,7 +138,6 @@ const Content = (props) => {
               }
             </div>
           </Fade>
-
         </div>
       );
     }
@@ -143,6 +157,15 @@ const Content = (props) => {
     });
   }
 
+  const logout = () => {
+    localStorage.setItem('jwt', "");
+    setIsLogin(false);
+    dispatch({
+      type: DELETE_ALL_WORD,
+    });
+    history.push("/");
+  }
+
   return (
     <div className="content">
       {renderWordList()}
@@ -154,6 +177,10 @@ const Content = (props) => {
       <button onClick={() => {
         narrowDownAll();
       }}>全て</button>
+
+      <button onClick={() => {
+        logout();
+      }}>ログアウト</button>
     </div>
   )
 };
