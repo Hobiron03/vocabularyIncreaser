@@ -34,6 +34,8 @@ interface wordData {
 const Content = () => {
 
   const { state, dispatch } = useContext(AppContext);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [wordNum, setWordNum] = useState<number>(0);
 
   const [myWordList, setMyWordList] = useState<wordData[]>(
     [
@@ -48,8 +50,6 @@ const Content = () => {
       },
     ]
   );
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const dummyData: wordData[] = [
     {
@@ -133,6 +133,7 @@ const Content = () => {
 
       }).then(response => {
         const currentWordData: wordData[] = myWordList;
+
         response.data.forEach((word: wordData) => {
           dispatch({
             type: ADD_NEW_WORD,
@@ -163,16 +164,18 @@ const Content = () => {
     else {
       return (
         <div>
+          <p>{state.words.length} words</p>
           <Fade
             in={!isLoading}
             {...(!isLoading ? { timeout: 600 } : {})}
           >
             <div className="word-list">
               {
-                state.words.map((data: wordData, index: number) => {
+                state.words.map((data: wordData, index: number): JSX.Element | undefined => {
                   if (state.currentGenre[0] === data.genre || state.currentGenre[0] === 'ALL')
                     return <Card key={index} word={data.word} mean={data.mean} color={data.color}></Card>
-                })
+                }
+                )
               }
             </div>
           </Fade>
@@ -199,6 +202,8 @@ const Content = () => {
   return (
     <div className="content">
       {renderWordList()}
+
+
       <button onClick={() => {
         narrowDownENG();
       }}>絞り込み英語</button>

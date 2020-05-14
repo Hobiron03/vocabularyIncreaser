@@ -93,6 +93,11 @@ const Header = () => {
         </Menu>
     );
 
+    const searchWord = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        e.preventDefault();
+        console.log(e.target.value);
+    }
+
     return (
         <div className={classes.grow} >
             <AppBar position="static" style={{ background: '#037DE5' }}>
@@ -119,6 +124,7 @@ const Header = () => {
                                 input: classes.inputInput,
                             }}
                             inputProps={{ 'aria-label': 'search' }}
+                            onChange={e => searchWord(e)}
                         />
                     </div>
                 </Toolbar>
