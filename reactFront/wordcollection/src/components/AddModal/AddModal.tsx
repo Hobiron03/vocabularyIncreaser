@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import AppContext from '../../contexts/AppContext';
+import {
+    ADD_NEW_WORD,
+} from '../../actions';
+import axios from 'axios';
+import apiServer from '../../APIServerLocation';
 import './AddModal.css';
+
 
 interface AddModal {
     toggleModalState: Function;
+};
+
+interface wordData {
+    id: number;
+    user_id: number;
+    word: string;
+    mean: string;
+    pronounce: string;
+    genre: string;
+    color: string;
 };
 
 enum COLORS {
@@ -22,6 +38,8 @@ enum COLORS {
 };
 
 const AddModal = (props: AddModal) => {
+    const { state, dispatch } = useContext(AppContext);
+
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
             modal: {
@@ -33,18 +51,31 @@ const AddModal = (props: AddModal) => {
                 backgroundColor: theme.palette.background.paper,
                 borderRadius: "1%",
                 boxShadow: theme.shadows[5],
-                border: `5px solid ${borderColor}`,
+                border: `5px solid ${color}`,
                 padding: theme.spacing(2, 4, 3),
                 width: 450,
                 transition: "all 0.2s"
             },
             colorBallet: {
-                border: "2px solid #000000",
+                border: "3px solid #000000",
             }
         }),
     );
 
-    const [borderColor, setBorderColor] = useState<string>("#69BFF5");
+    const [color, setColor] = useState<string>("#69BFF5");
+    const [word, setWord] = useState<string>("");
+    const [pronounce, setPronounce] = useState<string>("");
+    const [mean, setMean] = useState<string>("");
+    const [genre, setGenre] = useState<string>("");
+    const addWord: wordData = {
+        id: 0,
+        user_id: 0,
+        word: "",
+        pronounce: "",
+        mean: "",
+        genre: "",
+        color: "",
+    };
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
@@ -59,8 +90,63 @@ const AddModal = (props: AddModal) => {
     };
 
     const clickColor = (color: string) => {
-        setBorderColor(color);
+        setColor(color);
     };
+
+    const handleChangeWord = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setWord(e.target.value);
+    };
+
+    const handleChangeMean = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setMean(e.target.value);
+    };
+
+    const handleChangePronounce = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setPronounce(e.target.value);
+    };
+
+    const handleChangeGenre = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setGenre(e.target.value);
+    };
+
+    const handleAddButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+
+        let form_data: FormData = new FormData();
+        form_data.append('word', word);
+        form_data.append('pronounce', pronounce);
+        form_data.append('mean', mean);
+        form_data.append('genre', genre);
+        form_data.append('color', color);
+
+        const jwt = localStorage.getItem('jwt');
+        axios.post(apiServer + 'api/addmyword/', form_data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${jwt}`
+            },
+        })
+            .then(_ => {
+                addWord.id = state.words.length + 1;
+                addWord.user_id = state.words[0].user_id;
+                addWord.word = word;
+                addWord.pronounce = pronounce;
+                addWord.mean = mean;
+                addWord.genre = genre;
+                addWord.color = color;
+
+                dispatch({
+                    type: ADD_NEW_WORD,
+                    word: addWord,
+                });
+
+                handleClose();
+            })
+            .catch((error) => {
+                console.log("エラーが発生しました");
+            });
+    };
+
 
     return (
         <div>
@@ -82,22 +168,30 @@ const AddModal = (props: AddModal) => {
                         <form>
                             <div className="form-element">
                                 <p>追加することば（必須）</p>
-                                <TextField id="outlined-basic" variant="outlined" size="small" fullWidth={true} />
+                                <TextField id="outlined-basic" variant="outlined" size="small" fullWidth={true}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeWord(e)}
+                                />
                             </div>
 
                             <div className="form-element">
                                 <p>ことばの読み方</p>
-                                <TextField id="outlined-basic" variant="outlined" size="small" fullWidth={true} />
+                                <TextField id="outlined-basic" variant="outlined" size="small" fullWidth={true}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePronounce(e)}
+                                />
                             </div>
 
                             <div className="form-element">
                                 <p>ことばの意味</p>
-                                <TextField id="outlined-basic" variant="outlined" size="small" fullWidth={true} multiline={true} />
+                                <TextField id="outlined-basic" variant="outlined" size="small" fullWidth={true} multiline={true}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeMean(e)}
+                                />
                             </div>
 
                             <div className="form-element">
                                 <p>ジャンル</p>
-                                <TextField id="outlined-basic" variant="outlined" size="small" multiline={true} />
+                                <TextField id="outlined-basic" variant="outlined" size="small" multiline={true}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeGenre(e)}
+                                />
                             </div>
 
                             <div className="form-element">
@@ -106,7 +200,7 @@ const AddModal = (props: AddModal) => {
                                     <div className={
                                         [
                                             "color",
-                                            borderColor === COLORS.WATERBLUE ? classes.colorBallet : ""
+                                            color === COLORS.WATERBLUE ? classes.colorBallet : ""
                                         ].join(" ")
                                     }
                                         style={{
@@ -118,7 +212,7 @@ const AddModal = (props: AddModal) => {
                                     <div className={
                                         [
                                             "color",
-                                            borderColor === COLORS.ORANGE ? classes.colorBallet : ""
+                                            color === COLORS.ORANGE ? classes.colorBallet : ""
                                         ].join(" ")
                                     }
 
@@ -132,7 +226,7 @@ const AddModal = (props: AddModal) => {
                                     <div className={
                                         [
                                             "color",
-                                            borderColor === COLORS.PINK ? classes.colorBallet : ""
+                                            color === COLORS.PINK ? classes.colorBallet : ""
                                         ].join(" ")
                                     }
                                         style={{
@@ -145,7 +239,7 @@ const AddModal = (props: AddModal) => {
                                     <div className={
                                         [
                                             "color",
-                                            borderColor === COLORS.NAVIBLUE ? classes.colorBallet : ""
+                                            color === COLORS.NAVIBLUE ? classes.colorBallet : ""
                                         ].join(" ")
                                     }
                                         style={{
@@ -158,7 +252,7 @@ const AddModal = (props: AddModal) => {
                                     <div className={
                                         [
                                             "color",
-                                            borderColor === COLORS.GREEN ? classes.colorBallet : ""
+                                            color === COLORS.GREEN ? classes.colorBallet : ""
                                         ].join(" ")
                                     }
                                         style={{
@@ -171,7 +265,7 @@ const AddModal = (props: AddModal) => {
                                     <div className={
                                         [
                                             "color",
-                                            borderColor === COLORS.PURPLE ? classes.colorBallet : ""
+                                            color === COLORS.PURPLE ? classes.colorBallet : ""
                                         ].join(" ")
                                     }
                                         style={{
@@ -186,9 +280,13 @@ const AddModal = (props: AddModal) => {
                             <Button fullWidth={true}
                                 variant="contained"
                                 style={{
-                                    backgroundColor: borderColor,
+                                    backgroundColor: color,
                                     marginTop: 30,
                                 }}
+                                disabled={
+                                    word === "" ? true : false
+                                }
+                                onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleAddButtonClick(e)}
                             >
                                 <p className="add-button">追加する</p>
                             </Button>
@@ -196,7 +294,7 @@ const AddModal = (props: AddModal) => {
                     </div>
                 </Fade>
             </Modal>
-        </div>
+        </div >
     );
 };
 
