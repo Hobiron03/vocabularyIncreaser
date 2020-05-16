@@ -128,7 +128,7 @@ const AddModal = (props: AddModal) => {
         })
             .then(_ => {
                 addWord.id = state.words.length + 1;
-                addWord.user_id = state.words[0].user_id;
+                addWord.user_id = 0;
                 addWord.word = word;
                 addWord.pronounce = pronounce;
                 addWord.mean = mean;
@@ -143,7 +143,7 @@ const AddModal = (props: AddModal) => {
                 handleClose();
             })
             .catch((error) => {
-                console.log("エラーが発生しました");
+                console.log(`エラーが発生しました:  ${error}` + error);
             });
     };
 
