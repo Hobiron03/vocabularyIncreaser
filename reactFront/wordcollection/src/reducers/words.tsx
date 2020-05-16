@@ -15,10 +15,10 @@ interface wordData {
 };
 
 interface wordAction {
-    type: string,
-    word: wordData,
-    currentGenre: string,
-}
+    type: string;
+    word: wordData;
+    currentGenre: string;
+};
 
 const words = (state: wordData[] = [], action: wordAction): wordData[] => {
     switch (action.type) {

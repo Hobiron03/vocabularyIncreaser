@@ -1,0 +1,33 @@
+.form-element{
+    margin-top: 22px;
+}
+
+.form-element p {
+    margin-bottom: 1px;
+}
+
+.color-selections{
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.color{
+    height: 45px;
+    width: 50px;
+    background-color: red;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.color:hover{
+    transform:scale(1.05,1.05);
+
+}
+
+.add-button {
+    margin: 0;
+    font-size: large;
+    color: white;
+    font-weight: bold;
+}

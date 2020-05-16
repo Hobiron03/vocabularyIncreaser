@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,14 +25,9 @@ const App = () => {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => {
-    console.log("App.tsx")
-  }, []);
-
   return (
     <Router>
       <Switch>
-
         <Route exact path="/mypage">
           <AppContext.Provider value={{ state, dispatch }}>
             <div className="App">
@@ -50,7 +45,6 @@ const App = () => {
           : (<Home />)
         }>
         </Route>
-
       </Switch>
     </Router>
   );

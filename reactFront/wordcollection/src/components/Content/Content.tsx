@@ -45,7 +45,7 @@ const Content = (props) => {
   const [wordNum, setWordNum] = useState<number>(0);
 
 
-  const init = () => {
+  const initState = () => {
     dispatch({
       type: SET_CURRENT_GENRE,
       currentGenre: 'ALL',
@@ -59,15 +59,14 @@ const Content = (props) => {
 
   //リロード時にログイン状態を取得
   useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
+    const jwt: string | null = localStorage.getItem('jwt');
     if (jwt) {
-      console.log("jwtあります！！！");
       axios.get('http://127.0.0.1:8000/api/validation/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `JWT ${jwt}`
         },
-      }).then(response => {
+      }).then(_ => {
         setIsLogin(true);
       }).catch(error => {
         console.log(error);
@@ -80,8 +79,7 @@ const Content = (props) => {
 
   //Fetch my word data from http://127.0.0.1:8000/api/myword/
   useEffect(() => {
-    init();
-
+    initState();
     const fetchMyWordData = async () => {
       const jwt = localStorage.getItem('jwt');
       await axios.get('http://127.0.0.1:8000/api/fetchmyword/', {
@@ -101,7 +99,7 @@ const Content = (props) => {
           });
           setIsLoading(false);
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         })
     }

@@ -2,11 +2,10 @@ import {
     SET_CURRENT_GENRE,
 } from '../actions/index';
 
-
 interface genreAction {
-    type: string,
-    currentGenre: string,
-}
+    type: string;
+    currentGenre: string;
+};
 
 const genre = (state: string[] = [], action: genreAction): string[] => {
     switch (action.type) {

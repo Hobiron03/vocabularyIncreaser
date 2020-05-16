@@ -16,7 +16,6 @@ const Home = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
-
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -27,7 +26,6 @@ const Home = (props) => {
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      console.log("jwtあります！！！");
       axios.get('http://127.0.0.1:8000/api/validation/', {
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +44,7 @@ const Home = (props) => {
   const login = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    let form_data = new FormData();
+    let form_data: FormData = new FormData();
     form_data.append('username', userName);
     form_data.append('password', password);
     axios.post('http://127.0.0.1:8000/api-auth/', form_data, {
@@ -58,7 +56,6 @@ const Home = (props) => {
         console.log(response.data.token);
         const jwt = response.data.token;
         localStorage.setItem('jwt', jwt);
-
         history.push("/mypage");
       })
       .catch(function (error) {
