@@ -51,13 +51,14 @@ const AddModal = (props: AddModal) => {
                 backgroundColor: theme.palette.background.paper,
                 borderRadius: "1%",
                 boxShadow: theme.shadows[5],
-                border: `5px solid ${color}`,
+                border: `6px solid ${color}`,
                 padding: theme.spacing(2, 4, 3),
                 width: 450,
                 transition: "all 0.2s"
             },
             colorBallet: {
-                border: "3px solid #000000",
+                border: "2px solid #000000",
+
             }
         }),
     );
@@ -78,7 +79,8 @@ const AddModal = (props: AddModal) => {
     };
 
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = useState(true);
+
 
     const handleOpen = () => {
         setOpen(true);
@@ -94,6 +96,9 @@ const AddModal = (props: AddModal) => {
     };
 
     const handleChangeWord = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (e.target.value.length >= 35) {
+            return;
+        }
         setWord(e.target.value);
     };
 

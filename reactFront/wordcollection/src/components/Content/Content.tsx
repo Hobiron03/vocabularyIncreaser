@@ -130,7 +130,7 @@ const Content = (props) => {
               {
                 state.words.map((data: wordData, index: number): JSX.Element | undefined => {
                   if (state.currentGenre[0] === data.genre || state.currentGenre[0] === 'ALL')
-                    return <Card key={index} word={data.word} mean={data.mean} color={data.color}></Card>
+                    return <Card key={index} wordData={data}></Card>
                 }
                 )
               }

@@ -6,15 +6,11 @@ import IconButton from '@material-ui/core/IconButton';
 import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import Drawer from '@material-ui/core/Drawer';
 
 import AddModal from '../AddModal/AddModal';
-
-
 
 
 const Header = () => {
@@ -51,7 +47,7 @@ const Header = () => {
                     <li>こんにちは</li>
                 </ul>
             </Drawer>
-            <AppBar position="static" style={{ background: '#037DE5' }}>
+            <AppBar position="sticky" style={{ background: '#037DE5' }}>
                 <Toolbar>
                     <IconButton
                         edge="start"

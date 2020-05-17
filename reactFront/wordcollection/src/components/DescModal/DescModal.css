@@ -1,0 +1,82 @@
+.form-element{
+    margin-top: 22px;
+}
+
+.form-element p {
+    margin-bottom: 1px;
+}
+
+.color-selections{
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.color{
+    height: 45px;
+    width: 50px;
+    background-color: red;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.color:hover{
+    transform:scale(1.05,1.05);
+
+}
+
+.add-button {
+    margin: 0;
+    font-size: large;
+    color: white;
+    font-weight: bold;
+}
+
+.card-top-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+.card-top-header-left h3{
+    margin: 10px 10px 10px 30px;
+}
+
+.card-top-content{
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pronunce{
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+}
+
+.pronunce h3{
+    margin: 3px 8px;
+    font-weight: bold;
+}
+
+.word{
+    margin-top: 0px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+.word h1{
+    margin: 5px 8px;
+    font-weight: bold;
+}
+
+.card-under{
+    height: 200px;
+    margin: 20px;
+}
+
+.card-under p{
+    font-size: 18px;
+}
