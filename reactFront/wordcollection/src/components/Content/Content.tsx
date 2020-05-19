@@ -90,8 +90,9 @@ const Content = (props) => {
       })
         .then(response => {
           response.data.forEach((wordData) => {
-            console.log(wordData.fields);
             const word = wordData.fields;
+            word.id = wordData.pk;
+            console.log(word.id);
             dispatch({
               type: ADD_NEW_WORD,
               word,

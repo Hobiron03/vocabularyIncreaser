@@ -25,6 +25,9 @@ const words = (state: wordData[] = [], action: wordAction): wordData[] => {
         case ADD_NEW_WORD:
             const newWord = action.word;
             return [...state, newWord];
+        case DELETE_WORD:
+            const newState = state.filter((word: wordData) => word.id !== action.word.id);
+            return newState;
         case DELETE_ALL_WORD:
             return [];
         default:

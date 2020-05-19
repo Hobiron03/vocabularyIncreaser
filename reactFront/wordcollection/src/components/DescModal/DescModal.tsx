@@ -13,7 +13,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import AppContext from '../../contexts/AppContext';
 import {
-    ADD_NEW_WORD,
+    DELETE_WORD,
 } from '../../actions';
 import axios from 'axios';
 import apiServer from '../../APIServerLocation';
@@ -75,12 +75,7 @@ const DescModal = (props: DescModalProps) => {
         }),
     );
 
-    const [color, setColor] = useState<string>("#69BFF5");
-    const [word, setWord] = useState<string>("");
-    const [pronounce, setPronounce] = useState<string>("");
-    const [mean, setMean] = useState<string>("");
-    const [genre, setGenre] = useState<string>("");
-    const addWord: wordData = {
+    const DeleteWord: wordData = {
         id: 0,
         user_id: 0,
         word: "",
@@ -93,7 +88,6 @@ const DescModal = (props: DescModalProps) => {
     const classes = useStyles();
     const [open, setOpen] = useState(true);
 
-
     const handleOpen = () => {
         setOpen(true);
     };
@@ -101,61 +95,36 @@ const DescModal = (props: DescModalProps) => {
     const handleClose = () => {
         setOpen(false);
         props.toggleModalState();
-        console.log("閉じるよ")
     };
 
-    const clickColor = (color: string) => {
-        setColor(color);
-    };
-
-    const handleChangeWord = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (e.target.value.length >= 35) {
-            return;
-        }
-        setWord(e.target.value);
-    };
-
-    const handleChangeMean = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setMean(e.target.value);
-    };
-
-    const handleChangePronounce = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setPronounce(e.target.value);
-    };
-
-    const handleChangeGenre = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setGenre(e.target.value);
-    };
-
-    const handleAddButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleDeleteButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        //サーバー上のデータの削除, stateから削除
         e.preventDefault();
 
-        let form_data: FormData = new FormData();
-        form_data.append('word', word);
-        form_data.append('pronounce', pronounce);
-        form_data.append('mean', mean);
-        form_data.append('genre', genre);
-        form_data.append('color', color);
+        interface WordDeleteFormData extends FormData {
+            append(name: string, value: string | Blob | number, fileName?: string)
+        };
+
+        let form_data: WordDeleteFormData = new FormData() as WordDeleteFormData;
+        form_data.append(
+            'id', props.wordData.id,
+        );
 
         const jwt = localStorage.getItem('jwt');
-        axios.post(apiServer + 'api/addmyword/', form_data, {
+        axios.post(apiServer + 'api/deletemyword/', form_data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `JWT ${jwt}`
             },
         })
             .then(_ => {
-                addWord.id = state.words.length + 1;
-                addWord.user_id = 0;
-                addWord.word = word;
-                addWord.pronounce = pronounce;
-                addWord.mean = mean;
-                addWord.genre = genre;
-                addWord.color = color;
+
+                // reRenderContent();
+                DeleteWord.id = props.wordData.id;
 
                 dispatch({
-                    type: ADD_NEW_WORD,
-                    word: addWord,
+                    type: DELETE_WORD,
+                    word: DeleteWord,
                 });
 
                 handleClose();
@@ -163,7 +132,46 @@ const DescModal = (props: DescModalProps) => {
             .catch((error) => {
                 console.log(`エラーが発生しました:  ${error}` + error);
             });
+
     };
+
+    // const handleAddButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    //     e.preventDefault();
+
+    //     let form_data: FormData = new FormData();
+    //     form_data.append('word', word);
+    //     form_data.append('pronounce', pronounce);
+    //     form_data.append('mean', mean);
+    //     form_data.append('genre', genre);
+    //     form_data.append('color', color);
+
+    //     const jwt = localStorage.getItem('jwt');
+    //     axios.post(apiServer + 'api/addmyword/', form_data, {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `JWT ${jwt}`
+    //         },
+    //     })
+    //         .then(_ => {
+    //             addWord.id = state.words.length + 1;
+    //             addWord.user_id = 0;
+    //             addWord.word = word;
+    //             addWord.pronounce = pronounce;
+    //             addWord.mean = mean;
+    //             addWord.genre = genre;
+    //             addWord.color = color;
+
+    //             dispatch({
+    //                 type: ADD_NEW_WORD,
+    //                 word: addWord,
+    //             });
+
+    //             handleClose();
+    //         })
+    //         .catch((error) => {
+    //             console.log(`エラーが発生しました:  ${error}` + error);
+    //         });
+    // };
 
 
     return (
@@ -196,6 +204,7 @@ const DescModal = (props: DescModalProps) => {
                                         className={classes.menuButton}
                                         color="inherit"
                                         aria-label="open drawer"
+                                        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleDeleteButtonClick(e)}
                                     >
                                         <DeleteIcon />
                                     </IconButton>

@@ -16,7 +16,6 @@ import AppContext from './contexts/AppContext';
 import reducer from './reducers';
 
 
-
 const App = () => {
 
   const initialState = {
@@ -40,10 +39,8 @@ const App = () => {
           </AppContext.Provider>
         </Route>
 
-        <Route exact path="/" render={props => false
-          ? (<Redirect to="/mypage" />)
-          : (<Home />)
-        }>
+        <Route exact path="/">
+          <Home />
         </Route>
       </Switch>
     </Router>

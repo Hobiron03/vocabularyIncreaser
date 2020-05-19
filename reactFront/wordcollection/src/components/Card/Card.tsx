@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Card.css';
 import Paper from '@material-ui/core/Paper';
-import { Color, colors } from '@material-ui/core';
 import DescModal from '../DescModal/DescModal';
 
 interface WordInfo {

@@ -131,10 +131,8 @@ const AddModal = (props: AddModal) => {
                 'Authorization': `JWT ${jwt}`
             },
         })
-            .then(response => {
-                console.log(response.data);
-
-                addWord.id = response.data;
+            .then(_ => {
+                addWord.id = state.words.length + 1;
                 addWord.user_id = 0;
                 addWord.word = word;
                 addWord.pronounce = pronounce;

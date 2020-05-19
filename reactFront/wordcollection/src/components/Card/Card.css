@@ -31,7 +31,6 @@
 .under{
     height: 125px;
     background-color: rgb(255, 255, 255);    
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,8 +40,6 @@
     margin: 10px;
     font-size: 13px;
 }
-
-
 
 .card-list{
     display: flex;
