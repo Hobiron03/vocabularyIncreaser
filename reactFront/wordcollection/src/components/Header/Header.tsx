@@ -17,6 +17,8 @@ import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
+import axios from 'axios';
+import apiServer from '../../APIServerLocation';
 import {
     DELETE_ALL_WORD,
 } from '../../actions';
@@ -70,6 +72,28 @@ const Header = () => {
         history.push("/");
     };
 
+    const AllDeleteMyWord = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+
+        const jwt = localStorage.getItem('jwt');
+        console.log(jwt);
+        await axios.get(apiServer + 'api/alldeletemyword/', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${jwt}`
+            },
+        })
+            .then(response => {
+                dispatch({
+                    type: DELETE_ALL_WORD,
+                });
+            })
+            .catch((error) => {
+                console.log(`エラーが発生しました:  ${error}` + error);
+            });
+
+    };
+
 
     const anchor = "left";
     return (
@@ -97,6 +121,7 @@ const Header = () => {
                             color="secondary"
                             startIcon={<DeleteForeverIcon />}
                             style={{ width: 180 }}
+                            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => AllDeleteMyWord(e)}
                         >
                             <h4 className="drawer-button-text">全データ削除</h4>
                         </Button>

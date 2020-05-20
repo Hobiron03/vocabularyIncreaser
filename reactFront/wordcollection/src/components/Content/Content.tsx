@@ -147,14 +147,14 @@ const Content = (props) => {
       type: SET_CURRENT_GENRE,
       currentGenre: '英語',
     });
-  }
+  };
 
   const narrowDownAll = () => {
     dispatch({
       type: SET_CURRENT_GENRE,
       currentGenre: 'ALL',
     });
-  }
+  };
 
   const logout = () => {
     localStorage.setItem('jwt', "");
@@ -163,7 +163,7 @@ const Content = (props) => {
       type: DELETE_ALL_WORD,
     });
     history.push("/");
-  }
+  };
 
   return (
     <div className="content">
