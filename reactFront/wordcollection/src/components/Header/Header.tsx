@@ -91,9 +91,28 @@ const Header = () => {
             .catch((error) => {
                 console.log(`エラーが発生しました:  ${error}` + error);
             });
-
     };
 
+    const deleteAcoount = async () => {
+        const jwt = localStorage.getItem('jwt');
+        console.log(jwt);
+        await axios.get(apiServer + 'api/deleteuser/', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${jwt}`
+            },
+        })
+            .then(response => {
+                dispatch({
+                    type: DELETE_ALL_WORD,
+                });
+                localStorage.setItem("jwt", "");
+                history.push('/');
+            })
+            .catch((error) => {
+                console.log(`エラーが発生しました:  ${error}` + error);
+            });
+    };
 
     const anchor = "left";
     return (
@@ -133,6 +152,10 @@ const Header = () => {
                             color="secondary"
                             startIcon={<AccountCircleIcon />}
                             style={{ width: 180 }}
+                            onClick={(e) => {
+                                AllDeleteMyWord(e);
+                                deleteAcoount();
+                            }}
                         >
                             <h4 className="drawer-button-text">アカウント削除</h4>
                         </Button>
