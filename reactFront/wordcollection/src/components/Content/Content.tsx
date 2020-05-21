@@ -165,18 +165,6 @@ const Content = (props) => {
   return (
     <div className="content">
       {renderWordList()}
-
-
-      <button onClick={() => {
-        narrowDownENG();
-      }}>絞り込み英語</button>
-      <button onClick={() => {
-        narrowDownAll();
-      }}>全て</button>
-
-      <button onClick={() => {
-        logout();
-      }}>ログアウト</button>
     </div>
   )
 };
