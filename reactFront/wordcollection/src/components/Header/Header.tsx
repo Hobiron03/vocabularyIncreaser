@@ -16,6 +16,11 @@ import Button from '@material-ui/core/Button';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import axios from 'axios';
 import apiServer from '../../APIServerLocation';
@@ -39,6 +44,9 @@ const Header = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [usrName, setUsrName] = useState<string>("");
 
+    const [open, setOpen] = useState(false);
+    const [deleteUserDialogOpen, setDeleteUserDialogOpen] = useState(false);
+
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
         if (jwt) {
@@ -51,13 +59,92 @@ const Header = () => {
     const searchWord = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         console.log(e.target.value);
-    }
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleDeleteUserClickOpen = () => {
+        setDeleteUserDialogOpen(true);
+    };
+
+    const handleDeleteUserClickClose = () => {
+        setDeleteUserDialogOpen(false);
+    };
 
     const AddModalWindow = () => {
         if (isModalOpen) {
             return <AddModal toggleModalState={() => { toggleModalState() }} />
         }
         return;
+    };
+
+    const deleteAllDataAlertDialog = () => {
+        return (
+            <div>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"全てのデータを削除"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            削除したデータを復元することはできません。本当によろしいですか？
+                </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            NO
+                </Button>
+                        <Button onClick={(e) => {
+                            AllDeleteMyWord(e);
+                            handleClose()
+                        }} color="primary" autoFocus>
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        );
+    };
+
+    const deleteAccountAlertDialog = () => {
+        return (
+            <div>
+                <Dialog
+                    open={deleteUserDialogOpen}
+                    onClose={handleDeleteUserClickClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"アカウントの削除"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            アカウントを削除します。本当によろしいですか？
+                </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleDeleteUserClickClose} color="primary">
+                            NO
+                        </Button>
+                        <Button onClick={(e) => {
+                            AllDeleteMyWord(e);
+                            deleteAcoount();
+                            handleDeleteUserClickClose()
+                        }} color="primary" autoFocus>
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        );
     };
 
     const toggleModalState = () => {
@@ -117,6 +204,8 @@ const Header = () => {
     const anchor = "left";
     return (
         <div className={classes.grow} >
+            {deleteAllDataAlertDialog()}
+            {deleteAccountAlertDialog()}
             <Drawer anchor={anchor} open={isDrawerOpen} onClose={() => { setIsDrawerOpen(false) }}>
                 <div className="drawer">
                     <div className="">
@@ -140,7 +229,9 @@ const Header = () => {
                             color="secondary"
                             startIcon={<DeleteForeverIcon />}
                             style={{ width: 180 }}
-                            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => AllDeleteMyWord(e)}
+                            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                                handleClickOpen();
+                            }}
                         >
                             <h4 className="drawer-button-text">全データ削除</h4>
                         </Button>
@@ -153,8 +244,7 @@ const Header = () => {
                             startIcon={<AccountCircleIcon />}
                             style={{ width: 180 }}
                             onClick={(e) => {
-                                AllDeleteMyWord(e);
-                                deleteAcoount();
+                                handleDeleteUserClickOpen();
                             }}
                         >
                             <h4 className="drawer-button-text">アカウント削除</h4>
