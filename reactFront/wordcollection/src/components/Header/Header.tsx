@@ -59,6 +59,10 @@ const Header = () => {
     const searchWord = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
         console.log(e.target.value);
+        dispatch({
+            type: "SET_SEARCH_WORD",
+            searchWord: e.target.value,
+        });
     };
 
     const handleClickOpen = () => {

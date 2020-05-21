@@ -24,8 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const Topic = () => {
 
     const { state } = useContext(AppContext);
-
-    const classes = useStyles();
     const [age, setAge] = React.useState<string | number>('');
     const [open, setOpen] = React.useState(false);
 
@@ -46,23 +44,6 @@ const Topic = () => {
         <div>
             <div className="topic-top">
                 <h3>あつめたことば</h3>
-                <Select
-                    labelId="demo-controlled-open-select-label"
-                    id="demo-controlled-open-select"
-                    open={open}
-                    onClose={handleClose}
-                    onOpen={handleOpen}
-                    value={age}
-                    onChange={handleChange}
-                    className={classes.formControl}
-                >
-                    <MenuItem value={2}>
-                        全て
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
             </div>
         </div>
     )

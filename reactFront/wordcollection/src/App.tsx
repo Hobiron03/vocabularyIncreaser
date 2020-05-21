@@ -21,6 +21,7 @@ const App = () => {
   const initialState = {
     words: [],
     currentGenre: ['ALL'],
+    searchWord: "",
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
