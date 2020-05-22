@@ -11,6 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+import apiServer from '../../APIServerLocation';
+
 
 const Home = (props) => {
   const classes = useStyles();
@@ -20,8 +22,9 @@ const Home = (props) => {
   const [password, setPassword] = useState<string>("");
 
   const [isError, setIsError] = useState<boolean>(false);
+  const [isSignupError, setIsSignupError] = useState<boolean>(false);
 
-  //ログインは、ローカルストレージにjwtトークンが入っているか確認。入っていればGETリクエストを流してOKだったらisAuthenticatedをtrue。ない場合はそのままHomeをひょうじ
+  //ログインは、ローカルストレージにjwtトークンが入っているか確認。入っていればGETリクエストを流してOKだったらisAuthenticatedをtrue。ない場合はそのままHomeを表示
   //GETしてダメだったらそのまま
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -47,18 +50,37 @@ const Home = (props) => {
     let form_data: FormData = new FormData();
     form_data.append('username', userName);
     form_data.append('password', password);
-    axios.post('http://127.0.0.1:8000/api-auth/', form_data, {
+    axios.post(apiServer + 'api-auth/', form_data, {
       headers: {
         'Content-Type': 'application/json'
       },
     })
-      .then(function (response) {
-        console.log(response.data.token);
+      .then(response => {
         const jwt = response.data.token;
         localStorage.setItem('jwt', jwt);
         history.push("/mypage");
       })
-      .catch(function (error) {
+      .catch(error => {
+        setIsError(true);
+        console.log(error);
+      })
+  };
+
+  const signup = (e) => {
+    let form_data: FormData = new FormData();
+    form_data.append('username', userName);
+    form_data.append('password', password);
+    axios.post(apiServer + 'api/signup/', form_data, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(response => {
+        if (response.data === 201) {
+          login(e);
+        };
+      })
+      .catch(error => {
         setIsError(true);
         console.log(error);
       })
@@ -82,6 +104,14 @@ const Home = (props) => {
     }
   };
 
+  const signupError = () => {
+    if (isSignupError) {
+      return (<p className="failed-signup">新規登録に失敗しました。もう一度やり直してください</p>)
+    } else {
+      return <p>新規登録</p>
+    }
+  };
+
   return (
     <div>
       <h1>This is Home</h1>
@@ -91,12 +121,15 @@ const Home = (props) => {
           id="outlined-basic"
           label="ユーザーネーム"
           variant="outlined"
+          size="small"
           onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeUserName(e)}
         />
         <TextField
           id="outlined-basic"
           label="パスワード"
           variant="outlined"
+          type="password"
+          size="small"
           onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePassword(e)}
         />
         <Button
@@ -109,7 +142,32 @@ const Home = (props) => {
           <span style={{ fontSize: "bold" }}>ログイン</span>
         </Button>
       </div>
-      <p>新規登録</p>
+      <div className="signup-form">
+        {signupError()}
+        <TextField
+          id="outlined-basic"
+          label="ユーザーネーム"
+          variant="outlined"
+          size="small"
+          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeUserName(e)}
+        />
+        <TextField
+          id="outlined-basic"
+          label="パスワード"
+          variant="outlined"
+          size="small"
+          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePassword(e)}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          endIcon={<ExitToAppIcon></ExitToAppIcon>}
+          onClick={e => signup(e)}
+        >
+          <span style={{ fontSize: "bold" }}>新規登録</span>
+        </Button>
+      </div>
     </div>
   )
 };
