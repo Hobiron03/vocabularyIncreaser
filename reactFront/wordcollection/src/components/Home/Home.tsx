@@ -81,7 +81,7 @@ const Home = (props) => {
         };
       })
       .catch(error => {
-        setIsError(true);
+        setIsSignupError(true);
         console.log(error);
       })
   };
@@ -100,73 +100,83 @@ const Home = (props) => {
       return (<p className="failed-login">ログインに失敗しました。もう一度やり直してください。</p>)
     }
     else {
-      return <p>ログイン</p>
+      return <p style={{ fontWeight: "bold" }}>ログイン</p>
     }
   };
 
   const signupError = () => {
     if (isSignupError) {
-      return (<p className="failed-signup">新規登録に失敗しました。もう一度やり直してください</p>)
+      return (<p className="failed-login">新規登録に失敗しました。もう一度やり直してください</p>)
     } else {
-      return <p>新規登録</p>
+      return <p style={{ fontWeight: "bold" }}>新規登録</p>
     }
   };
 
   return (
-    <div>
-      <h1>This is Home</h1>
-      <div className="login-form">
-        {loginError()}
-        <TextField
-          id="outlined-basic"
-          label="ユーザーネーム"
-          variant="outlined"
-          size="small"
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeUserName(e)}
-        />
-        <TextField
-          id="outlined-basic"
-          label="パスワード"
-          variant="outlined"
-          type="password"
-          size="small"
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePassword(e)}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          endIcon={<ExitToAppIcon></ExitToAppIcon>}
-          onClick={e => login(e)}
-        >
-          <span style={{ fontSize: "bold" }}>ログイン</span>
-        </Button>
+    <div className="home">
+      <div className="topic">
+        <h1 className="title">ことばあつめ</h1>
+        <h2 className="subtitle">知らない言葉を集めて知識を増やそう</h2>
       </div>
-      <div className="signup-form">
-        {signupError()}
-        <TextField
-          id="outlined-basic"
-          label="ユーザーネーム"
-          variant="outlined"
-          size="small"
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeUserName(e)}
-        />
-        <TextField
-          id="outlined-basic"
-          label="パスワード"
-          variant="outlined"
-          size="small"
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePassword(e)}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          endIcon={<ExitToAppIcon></ExitToAppIcon>}
-          onClick={e => signup(e)}
-        >
-          <span style={{ fontSize: "bold" }}>新規登録</span>
-        </Button>
+      <div className="under-home">
+        <div className="login-form">
+          {loginError()}
+          <TextField
+            id="outlined-basic"
+            label="ユーザーネーム"
+            variant="outlined"
+            size="small"
+            style={{
+              marginTop: 8,
+              color: "white",
+            }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeUserName(e)}
+          />
+          <TextField
+            id="outlined-basic"
+            label="パスワード"
+            variant="outlined"
+            type="password"
+            size="small"
+            style={{ marginTop: 8 }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePassword(e)}
+          />
+          <Button
+            variant="contained"
+            className={classes.button}
+            color="primary"
+            endIcon={<ExitToAppIcon></ExitToAppIcon>}
+            onClick={e => login(e)}
+          >
+            <span style={{ fontSize: "bold" }}>ログイン</span>
+          </Button>
+        </div>
+        <div className="signup-form">
+          {signupError()}
+          <TextField
+            id="outlined-basic"
+            label="ユーザーネーム"
+            variant="outlined"
+            size="small"
+            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeUserName(e)}
+          />
+          <TextField
+            id="outlined-basic"
+            label="パスワード"
+            variant="outlined"
+            size="small"
+            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePassword(e)}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            endIcon={<ExitToAppIcon></ExitToAppIcon>}
+            onClick={e => signup(e)}
+          >
+            <span style={{ fontSize: "bold" }}>新規登録</span>
+          </Button>
+        </div>
       </div>
     </div>
   )

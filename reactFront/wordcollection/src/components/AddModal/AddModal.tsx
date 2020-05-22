@@ -114,7 +114,7 @@ const AddModal = (props: AddModal) => {
         setGenre(e.target.value);
     };
 
-    const handleAddButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleAddButtonClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         let form_data: FormData = new FormData();
@@ -125,7 +125,7 @@ const AddModal = (props: AddModal) => {
         form_data.append('color', color);
 
         const jwt = localStorage.getItem('jwt');
-        axios.post(apiServer + 'api/addmyword/', form_data, {
+        await axios.post(apiServer + 'api/addmyword/', form_data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `JWT ${jwt}`

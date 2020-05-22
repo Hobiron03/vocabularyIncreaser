@@ -22,11 +22,3 @@
 .drawer-button h4{
     margin: 5px;
 }
-
-.logout{
-    margin-bottom: 50px;
-}
-
-.failed-login{
-    color: red;
-}

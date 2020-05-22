@@ -48,7 +48,7 @@ const Card = (props: CardProps) => {
                                 <p>{props.wordData.word}</p>
                             </div>
 
-                            <div className="under">
+                            <div className="under-card">
                                 <p>{props.wordData.mean}</p>
                             </div>
                         </Paper>
