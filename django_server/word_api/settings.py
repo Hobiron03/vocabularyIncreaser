@@ -152,6 +152,7 @@ JWT_AUTH = {
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://localhost:3000',
+    'https://wordcollection-f6f0c.web.app/',
 ]
 # レスポンスを公開する
 CORS_ALLOW_CREDENTIALS = True
