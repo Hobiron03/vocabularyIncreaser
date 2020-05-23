@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+import django_heroku
 import os
 import datetime
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -136,6 +136,7 @@ REST_FRAMEWORK = {
     # フィルタの追加
 
     # JWT認証の追加
+    # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_jwt.authentication.JSONWebTokenAuthentication',),
 }
 
@@ -149,7 +150,10 @@ JWT_AUTH = {
 
 # 許可するオリジン
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:4200',
+    'http://localhost:3000',
 ]
 # レスポンスを公開する
 CORS_ALLOW_CREDENTIALS = True
+
+
+django_heroku.settings(locals())

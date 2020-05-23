@@ -29,15 +29,25 @@ class SignUpAPIView(generics.CreateAPIView):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+        print("hello")
+        print(username)
+
         if username is None or password is None:
-            return Response(status.HTTP_400_BAD_REQUEST)
+            return Response(status.HTTP_403_FORBIDDEN)
 
         try:
-            User.objects.get(username=username)
+            user = User.objects.get(username=username)
             return Response(status.HTTP_400_BAD_REQUEST)
         except:
-            user = User.objects.create_user(username, '', password)
+            User.objects.create_user(username, '', password)
             return Response(status.HTTP_201_CREATED)
+
+
+class ValidationAPIView(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        return Response(status.HTTP_200_OK)
 
 
 class LogoutAPIView(generics.GenericAPIView):
@@ -66,6 +76,9 @@ class AddMyWordAPIView(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
+        if not request.POST.get('word'):
+            return Response(status.HTTP_403_FORBIDDEN)
+
         new_word = Word.objects.create(
             user_id=request.user.id,
             word=request.POST.get('word'),
@@ -76,7 +89,7 @@ class AddMyWordAPIView(generics.GenericAPIView):
         )
         new_word.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(new_word.id)
 
 
 class DeleteMyWordAPIView(generics.DestroyAPIView):
@@ -85,6 +98,25 @@ class DeleteMyWordAPIView(generics.DestroyAPIView):
     def post(self, request):
         word_id = request.POST.get('id')
         Word.objects.filter(pk=word_id).delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+class AllDeleteMyWordAPIView(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        user_id = request.user.id
+        print(user_id)
+        Word.objects.filter(user_id=user_id).all().delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+class DeleteUserAPIView(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        user_id = request.user.id
+        User.objects.filter(pk=user_id).delete()
         return Response(status=status.HTTP_200_OK)
 
 
