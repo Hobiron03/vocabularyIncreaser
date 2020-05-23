@@ -1,11 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import React, { useState, useContext } from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -31,15 +29,6 @@ interface wordData {
     color: string;
 };
 
-enum COLORS {
-    WATERBLUE = '#69BFF5',
-    ORANGE = '#F8AF06',
-    PINK = '#E68383',
-    NAVIBLUE = '#6979F5',
-    GREEN = '#59D67F',
-    PURPLE = '#B263E3',
-};
-
 interface DescModalProps {
     toggleModalState: Function;
     wordData: wordData;
@@ -47,7 +36,7 @@ interface DescModalProps {
 
 const DescModal = (props: DescModalProps) => {
 
-    const { state, dispatch } = useContext(AppContext);
+    const { dispatch } = useContext(AppContext);
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -90,10 +79,6 @@ const DescModal = (props: DescModalProps) => {
     const [open, setOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
     const handleClose = () => {
         setOpen(false);
         props.toggleModalState();
@@ -120,10 +105,8 @@ const DescModal = (props: DescModalProps) => {
             },
         })
             .then(_ => {
-
                 // reRenderContent();
                 DeleteWord.id = props.wordData.id;
-
                 dispatch({
                     type: DELETE_WORD,
                     word: DeleteWord,
@@ -137,43 +120,6 @@ const DescModal = (props: DescModalProps) => {
 
     };
 
-    // const handleAddButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    //     e.preventDefault();
-
-    //     let form_data: FormData = new FormData();
-    //     form_data.append('word', word);
-    //     form_data.append('pronounce', pronounce);
-    //     form_data.append('mean', mean);
-    //     form_data.append('genre', genre);
-    //     form_data.append('color', color);
-
-    //     const jwt = localStorage.getItem('jwt');
-    //     axios.post(apiServer + 'api/addmyword/', form_data, {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `JWT ${jwt}`
-    //         },
-    //     })
-    //         .then(_ => {
-    //             addWord.id = state.words.length + 1;
-    //             addWord.user_id = 0;
-    //             addWord.word = word;
-    //             addWord.pronounce = pronounce;
-    //             addWord.mean = mean;
-    //             addWord.genre = genre;
-    //             addWord.color = color;
-
-    //             dispatch({
-    //                 type: ADD_NEW_WORD,
-    //                 word: addWord,
-    //             });
-
-    //             handleClose();
-    //         })
-    //         .catch((error) => {
-    //             console.log(`エラーが発生しました:  ${error}` + error);
-    //         });
-    // };
 
     const toggleModalState = () => {
         setIsModalOpen(!isModalOpen);

@@ -38,7 +38,7 @@ enum COLORS {
 };
 
 const AddModal = (props: AddModal) => {
-    const { state, dispatch } = useContext(AppContext);
+    const { dispatch } = useContext(AppContext);
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -80,11 +80,6 @@ const AddModal = (props: AddModal) => {
 
     const classes = useStyles();
     const [open, setOpen] = useState(true);
-
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
@@ -147,7 +142,6 @@ const AddModal = (props: AddModal) => {
                 });
 
                 handleClose();
-                console.log("追加したよよよよよよ")
             })
             .catch((error) => {
                 console.log(`エラーが発生しました:  ${error}` + error);

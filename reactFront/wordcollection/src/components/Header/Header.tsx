@@ -37,7 +37,7 @@ import AppContext from '../../contexts/AppContext';
 const Header = () => {
     const classes = useStyles();
     const history = useHistory();
-    const { state, dispatch } = useContext(AppContext);
+    const { dispatch } = useContext(AppContext);
 
 
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -58,7 +58,6 @@ const Header = () => {
 
     const searchWord = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         e.preventDefault();
-        console.log(e.target.value);
         dispatch({
             type: "SET_SEARCH_WORD",
             searchWord: e.target.value,
@@ -167,7 +166,6 @@ const Header = () => {
         e.preventDefault();
 
         const jwt = localStorage.getItem('jwt');
-        console.log(jwt);
         await axios.get(apiServer + 'api/alldeletemyword/', {
             headers: {
                 'Content-Type': 'application/json',
@@ -186,7 +184,6 @@ const Header = () => {
 
     const deleteAcoount = async () => {
         const jwt = localStorage.getItem('jwt');
-        console.log(jwt);
         await axios.get(apiServer + 'api/deleteuser/', {
             headers: {
                 'Content-Type': 'application/json',
@@ -266,8 +263,6 @@ const Header = () => {
                         aria-label="open drawer"
                         onClick={() => {
                             setIsDrawerOpen(true)
-                            console.log(isDrawerOpen);
-
                         }}
                     >
                         <MenuIcon />

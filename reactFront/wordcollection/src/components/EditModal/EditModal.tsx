@@ -39,7 +39,7 @@ enum COLORS {
 };
 
 const EditModal = (props: EditModal) => {
-    const { state, dispatch } = useContext(AppContext);
+    const { dispatch } = useContext(AppContext);
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -70,6 +70,7 @@ const EditModal = (props: EditModal) => {
         setPronounce(props.wordData.pronounce);
         setMean(props.wordData.mean);
         setGenre(props.wordData.genre);
+        // eslint-disable-next-line
     }, [])
 
     const [color, setColor] = useState<string>(props.wordData.color);
@@ -89,11 +90,6 @@ const EditModal = (props: EditModal) => {
 
     const classes = useStyles();
     const [open, setOpen] = useState(true);
-
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
@@ -158,9 +154,7 @@ const EditModal = (props: EditModal) => {
                     type: UPDATE_WORD,
                     word: updateWord,
                 });
-
                 handleClose();
-                console.log("追加したよよよよよよ")
             })
             .catch((error) => {
                 console.log(`エラーが発生しました:  ${error}` + error);

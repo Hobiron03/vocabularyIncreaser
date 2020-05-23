@@ -13,18 +13,9 @@ import {
 } from 'react-router-dom';
 
 import axios from 'axios';
+import apiServer from '../../APIServerLocation';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fade from '@material-ui/core/Fade';
-
-
-enum COLORS {
-  WATERBLUE = '#69BFF5',
-  ORANGE = '#F8AF06',
-  PINK = '#E68383',
-  NAVIBLUE = '#6979F5',
-  GREEN = '#59D67F',
-  PURPLE = '#B263E3',
-};
 
 interface wordData {
   id: number;
@@ -41,9 +32,6 @@ const Content = (props) => {
 
   const { state, dispatch } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [wordNum, setWordNum] = useState<number>(0);
-
 
   const initState = () => {
     dispatch({
@@ -67,7 +55,6 @@ const Content = (props) => {
           'Authorization': `JWT ${jwt}`
         },
       }).then(_ => {
-        setIsLogin(true);
       }).catch(error => {
         console.log(error);
         history.push("/");
@@ -75,6 +62,7 @@ const Content = (props) => {
     } else {
       history.push("/");
     }
+    // eslint-disable-next-line
   }, []);
 
   //Fetch my word data from http://127.0.0.1:8000/api/myword/
@@ -82,7 +70,7 @@ const Content = (props) => {
     initState();
     const fetchMyWordData = async () => {
       const jwt = localStorage.getItem('jwt');
-      await axios.get('http://127.0.0.1:8000/api/fetchmyword/', {
+      await axios.get(apiServer + 'api/fetchmyword/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `JWT ${jwt}`
@@ -92,7 +80,6 @@ const Content = (props) => {
           response.data.forEach((wordData) => {
             const word = wordData.fields;
             word.id = wordData.pk;
-            console.log(word.id);
             dispatch({
               type: ADD_NEW_WORD,
               word,
@@ -105,6 +92,7 @@ const Content = (props) => {
         })
     }
     fetchMyWordData();
+    // eslint-disable-next-line
   }, []);
 
   const renderWordList = () => {
@@ -130,6 +118,7 @@ const Content = (props) => {
                   if (data.word.includes(state.searchWord)) {
                     return <Card key={index} wordData={data}></Card>
                   }
+                  return undefined;
                 })
               }
             </div>
@@ -138,30 +127,6 @@ const Content = (props) => {
       );
     }
   }
-
-  const narrowDownENG = () => {
-    dispatch({
-      type: SET_CURRENT_GENRE,
-      currentGenre: '英語',
-    });
-  };
-
-  const narrowDownAll = () => {
-    dispatch({
-      type: SET_CURRENT_GENRE,
-      currentGenre: 'ALL',
-    });
-  };
-
-  const logout = () => {
-    localStorage.setItem('jwt', "");
-    setIsLogin(false);
-    dispatch({
-      type: DELETE_ALL_WORD,
-    });
-    history.push("/");
-  };
-
   return (
     <div className="content">
       {renderWordList()}

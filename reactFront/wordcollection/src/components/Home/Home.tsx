@@ -29,19 +29,20 @@ const Home = (props) => {
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      axios.get('http://127.0.0.1:8000/api/validation/', {
+      axios.get(apiServer + 'api/validation/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `JWT ${jwt}`
         },
       })
-        .then(function (response) {
+        .then(response => {
           history.push("/mypage");
         })
-        .catch(function (error) {
+        .catch(error => {
           console.log(error);
         })
     }
+    // eslint-disable-next-line
   }, []);
 
   const login = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
