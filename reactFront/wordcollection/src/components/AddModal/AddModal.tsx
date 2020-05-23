@@ -132,7 +132,6 @@ const AddModal = (props: AddModal) => {
             },
         })
             .then(response => {
-                console.log(response.data);
 
                 addWord.id = response.data;
                 addWord.user_id = 0;

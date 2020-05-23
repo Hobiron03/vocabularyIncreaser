@@ -3,12 +3,13 @@ import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+
+import EditModal from '../EditModal/EditModal';
 
 
 import AppContext from '../../contexts/AppContext';
@@ -87,6 +88,7 @@ const DescModal = (props: DescModalProps) => {
 
     const classes = useStyles();
     const [open, setOpen] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleOpen = () => {
         setOpen(true);
@@ -173,9 +175,28 @@ const DescModal = (props: DescModalProps) => {
     //         });
     // };
 
+    const toggleModalState = () => {
+        setIsModalOpen(!isModalOpen);
+    };
+
+    const openEditModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const editModalWindow = () => {
+        if (isModalOpen) {
+            return (<EditModal
+                toggleModalState={() => { toggleModalState() }}
+                wordData={props.wordData}
+            />)
+        }
+        return;
+    };
+
 
     return (
         <div>
+            {editModalWindow()}
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -213,6 +234,7 @@ const DescModal = (props: DescModalProps) => {
                                         className={classes.menuButton}
                                         color="inherit"
                                         aria-label="open drawer"
+                                        onClick={() => openEditModal()}
                                     >
                                         <EditIcon color="inherit" />
                                     </IconButton>

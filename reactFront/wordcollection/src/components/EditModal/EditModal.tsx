@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -7,15 +7,16 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AppContext from '../../contexts/AppContext';
 import {
-    ADD_NEW_WORD,
+    UPDATE_WORD,
 } from '../../actions';
 import axios from 'axios';
 import apiServer from '../../APIServerLocation';
-import './AddModal.css';
+import './EditModal.css';
 
 
-interface AddModal {
+interface EditModal {
     toggleModalState: Function;
+    wordData: wordData;
 };
 
 interface wordData {
@@ -37,7 +38,7 @@ enum COLORS {
     PURPLE = '#B263E3',
 };
 
-const AddModal = (props: AddModal) => {
+const EditModal = (props: EditModal) => {
     const { state, dispatch } = useContext(AppContext);
 
     const useStyles = makeStyles((theme: Theme) =>
@@ -63,12 +64,20 @@ const AddModal = (props: AddModal) => {
         }),
     );
 
-    const [color, setColor] = useState<string>("#69BFF5");
+    useEffect(() => {
+        setColor(props.wordData.color);
+        setWord(props.wordData.word);
+        setPronounce(props.wordData.pronounce);
+        setMean(props.wordData.mean);
+        setGenre(props.wordData.genre);
+    }, [])
+
+    const [color, setColor] = useState<string>(props.wordData.color);
     const [word, setWord] = useState<string>("");
     const [pronounce, setPronounce] = useState<string>("");
     const [mean, setMean] = useState<string>("");
     const [genre, setGenre] = useState<string>("");
-    const addWord: wordData = {
+    const updateWord: wordData = {
         id: 0,
         user_id: 0,
         word: "",
@@ -117,7 +126,12 @@ const AddModal = (props: AddModal) => {
     const handleAddButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
-        let form_data: FormData = new FormData();
+        interface UpdateWordFormData extends FormData {
+            append(name: string, value: string | Blob | number, fileName?: string)
+        };
+
+        let form_data: UpdateWordFormData = new FormData() as UpdateWordFormData;
+        form_data.append('id', props.wordData.id)
         form_data.append('word', word);
         form_data.append('pronounce', pronounce);
         form_data.append('mean', mean);
@@ -125,24 +139,24 @@ const AddModal = (props: AddModal) => {
         form_data.append('color', color);
 
         const jwt = localStorage.getItem('jwt');
-        axios.post(apiServer + 'api/addmyword/', form_data, {
+        axios.post(apiServer + 'api/updatemyword/', form_data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `JWT ${jwt}`
             },
         })
             .then(_ => {
-                addWord.id = state.words.length + 1;
-                addWord.user_id = 0;
-                addWord.word = word;
-                addWord.pronounce = pronounce;
-                addWord.mean = mean;
-                addWord.genre = genre;
-                addWord.color = color;
+                updateWord.id = props.wordData.id;
+                updateWord.user_id = 0;
+                updateWord.word = word;
+                updateWord.pronounce = pronounce;
+                updateWord.mean = mean;
+                updateWord.genre = genre;
+                updateWord.color = color;
 
                 dispatch({
-                    type: ADD_NEW_WORD,
-                    word: addWord,
+                    type: UPDATE_WORD,
+                    word: updateWord,
                 });
 
                 handleClose();
@@ -170,11 +184,12 @@ const AddModal = (props: AddModal) => {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <h2>言葉を追加しましょう</h2>
+                        <h2>言葉の編集</h2>
                         <form>
                             <div className="form-element">
                                 <p>追加することば（必須）</p>
                                 <TextField id="outlined-basic" variant="outlined" size="small" fullWidth={true}
+                                    defaultValue={props.wordData.word}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeWord(e)}
                                 />
                             </div>
@@ -182,6 +197,7 @@ const AddModal = (props: AddModal) => {
                             <div className="form-element">
                                 <p>ことばの読み方</p>
                                 <TextField id="outlined-basic" variant="outlined" size="small" fullWidth={true}
+                                    defaultValue={props.wordData.pronounce}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePronounce(e)}
                                 />
                             </div>
@@ -189,6 +205,7 @@ const AddModal = (props: AddModal) => {
                             <div className="form-element">
                                 <p>ことばの意味</p>
                                 <TextField id="outlined-basic" variant="outlined" size="small" fullWidth={true} multiline={true}
+                                    defaultValue={props.wordData.mean}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeMean(e)}
                                 />
                             </div>
@@ -196,6 +213,7 @@ const AddModal = (props: AddModal) => {
                             <div className="form-element">
                                 <p>ジャンル</p>
                                 <TextField id="outlined-basic" variant="outlined" size="small" multiline={true}
+                                    defaultValue={props.wordData.genre}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeGenre(e)}
                                 />
                             </div>
@@ -294,7 +312,7 @@ const AddModal = (props: AddModal) => {
                                 }
                                 onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleAddButtonClick(e)}
                             >
-                                <p className="add-button">追加する</p>
+                                <p className="add-button">更新する</p>
                             </Button>
                         </form>
                     </div>
@@ -304,4 +322,4 @@ const AddModal = (props: AddModal) => {
     );
 };
 
-export default AddModal;
+export default EditModal;
