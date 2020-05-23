@@ -12,6 +12,8 @@ djangorestframework = "==3.9.1"
 djangorestframework-jwt = "*"
 gunicorn = "*"
 django-heroku = "*"
+corsheaders = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.7"

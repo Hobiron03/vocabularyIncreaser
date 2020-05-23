@@ -39,7 +39,7 @@ INSTALLED_APPS = [
 
     # サードパーティ
     'rest_framework',
-    'corsheaders',
+    # 'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -148,12 +148,12 @@ JWT_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
 }
 
-# 許可するオリジン
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
-# レスポンスを公開する
-CORS_ALLOW_CREDENTIALS = True
+# # 許可するオリジン
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:3000',
+# ]
+# # レスポンスを公開する
+# CORS_ALLOW_CREDENTIALS = True
 
 
 django_heroku.settings(locals())
