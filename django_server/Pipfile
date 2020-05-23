@@ -11,6 +11,7 @@ django = "==2.2.10"
 djangorestframework = "==3.9.1"
 djangorestframework-jwt = "*"
 gunicorn = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.7"
