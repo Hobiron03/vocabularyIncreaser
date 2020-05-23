@@ -1,1 +1,1 @@
-web: gunicorn word-collection-api.wsgi
+web: gunicorn word_api.wsgi

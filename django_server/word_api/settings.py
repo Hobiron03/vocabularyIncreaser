@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@gc6lh3d4t&^fo@vgjdkh48*t%$ex6ppj9ht+@*n=(7*k!#pzm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -151,6 +151,7 @@ JWT_AUTH = {
 # 許可するオリジン
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    'https://localhost:3000',
 ]
 # レスポンスを公開する
 CORS_ALLOW_CREDENTIALS = True
