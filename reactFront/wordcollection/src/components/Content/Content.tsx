@@ -49,7 +49,7 @@ const Content = (props) => {
   useEffect(() => {
     const jwt: string | null = localStorage.getItem('jwt');
     if (jwt) {
-      axios.get('http://127.0.0.1:8000/api/validation/', {
+      axios.get(apiServer + 'api/validation/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `JWT ${jwt}`
