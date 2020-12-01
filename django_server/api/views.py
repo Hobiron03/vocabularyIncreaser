@@ -40,6 +40,7 @@ class SignUpAPIView(generics.CreateAPIView):
             return Response(status.HTTP_400_BAD_REQUEST)
         except:
             User.objects.create_user(username, '', password)
+            User.save()
             return Response(status.HTTP_201_CREATED)
 
 
@@ -125,8 +126,6 @@ class UpdateMyWordAPIView(generics.UpdateAPIView):
 
     def post(self, request):
         word_id = request.POST.get('id')
-
-        print(word_id)
 
         if word_id is None:
             return Response(status=status.HTTP_403_FORBIDDEN)
