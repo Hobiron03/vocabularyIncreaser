@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import './Home.css';
+import React, { useState, useEffect } from "react";
+import "./Home.css";
 
-import {
-  useHistory,
-} from "react-router-dom";
-import axios from 'axios';
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-
-import apiServer from '../../APIServerLocation';
-
+import apiServer from "../../APIServerLocation";
 
 const Home = (props) => {
   const classes = useStyles();
@@ -31,20 +27,21 @@ const Home = (props) => {
   //ログインは、ローカルストレージにjwtトークンが入っているか確認。入っていればGETリクエストを流してOKだったらisAuthenticatedをtrue。ない場合はそのままHomeを表示
   //GETしてダメだったらそのまま
   useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
+    const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      axios.get(apiServer + 'api/validation/', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `JWT ${jwt}`
-        },
-      })
-        .then(response => {
+      axios
+        .get(apiServer + "api/validation/", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `JWT ${jwt}`,
+          },
+        })
+        .then((response) => {
           history.push("/mypage");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
-        })
+        });
     }
     // eslint-disable-next-line
   }, []);
@@ -54,79 +51,90 @@ const Home = (props) => {
     setIsloading(true);
 
     let form_data: FormData = new FormData();
-    form_data.append('username', userName);
-    form_data.append('password', password);
-    axios.post(apiServer + 'api-auth/', form_data, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(response => {
+    form_data.append("username", userName);
+    form_data.append("password", password);
+    axios
+      .post(apiServer + "api-auth/", form_data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
         const jwt = response.data.token;
-        localStorage.setItem('jwt', jwt);
+        localStorage.setItem("jwt", jwt);
         history.push("/mypage");
       })
-      .catch(error => {
+      .catch((error) => {
         setIsloading(false);
         setIsError(true);
         console.log(error);
-      })
+      });
   };
 
   const signup = (e): void => {
     setIsloading(true);
 
     let form_data: FormData = new FormData();
-    form_data.append('username', userName);
-    form_data.append('password', password);
-    axios.post(apiServer + 'api/signup/', form_data, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(response => {
+    form_data.append("username", userName);
+    form_data.append("password", password);
+    axios
+      .post(apiServer + "api/signup/", form_data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
         if (response.data === 201) {
           login(e);
-        };
+        }
       })
-      .catch(error => {
+      .catch((error) => {
         setIsloading(false);
         setIsSignupError(true);
         console.log(error);
-      })
+      });
   };
 
-
-  const handleChangeUserName = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangeUserName = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setUserName(e.target.value);
   };
 
-  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangePassword = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setPassword(e.target.value);
   };
 
   const loginError = () => {
     if (isError) {
-      return (<p className="failed-login">ログインに失敗しました。もう一度やり直してください。</p>)
-    }
-    else {
-      return <p style={{ fontWeight: "bold" }}>ログイン</p>
+      return (
+        <p className="failed-login">
+          ログインに失敗しました。もう一度やり直してください。
+        </p>
+      );
+    } else {
+      return <p style={{ fontWeight: "bold" }}>ログイン</p>;
     }
   };
 
   const signupError = () => {
     if (isSignupError) {
-      return (<p className="failed-login">新規登録に失敗しました。もう一度やり直してください</p>)
+      return (
+        <p className="failed-login">
+          新規登録に失敗しました。もう一度やり直してください
+        </p>
+      );
     } else {
-      return <p style={{ fontWeight: "bold" }}>新規登録</p>
+      return <p style={{ fontWeight: "bold" }}>新規登録</p>;
     }
   };
 
   const cardUnderContent = () => {
     if (isLoading) {
-      return <CircularProgress />
-    }
-    else {
+      return <CircularProgress />;
+    } else {
       return (
         <div>
           <div className="login-form">
@@ -140,23 +148,27 @@ const Home = (props) => {
                 marginTop: 8,
                 color: "white",
               }}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeUserName(e)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+              ) => handleChangeUserName(e)}
             />
             <TextField
               id="outlined-basic"
-              label="パスワード"
+              label="合言葉"
               variant="outlined"
               type="password"
               size="small"
               style={{ marginTop: 8 }}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePassword(e)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+              ) => handleChangePassword(e)}
             />
             <Button
               variant="contained"
               className={classes.button}
               color="primary"
               endIcon={<ExitToAppIcon></ExitToAppIcon>}
-              onClick={e => login(e)}
+              onClick={(e) => login(e)}
             >
               <span style={{ fontSize: "bold" }}>ログイン</span>
             </Button>
@@ -168,21 +180,25 @@ const Home = (props) => {
               label="ユーザーネーム"
               variant="outlined"
               size="small"
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangeUserName(e)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+              ) => handleChangeUserName(e)}
             />
             <TextField
               id="outlined-basic"
-              label="パスワード"
+              label="合言葉"
               variant="outlined"
               size="small"
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChangePassword(e)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+              ) => handleChangePassword(e)}
             />
             <Button
               variant="contained"
               color="primary"
               className={classes.button}
               endIcon={<ExitToAppIcon></ExitToAppIcon>}
-              onClick={e => signup(e)}
+              onClick={(e) => signup(e)}
             >
               <span style={{ fontSize: "bold" }}>新規登録</span>
             </Button>
@@ -198,21 +214,17 @@ const Home = (props) => {
         <h1 className="title">ことばあつめ</h1>
         <h2 className="subtitle">知らない言葉を集めて知識を増やそう</h2>
       </div>
-      <div className="under-home">
-        {cardUnderContent()}
-      </div>
+      <div className="under-home">{cardUnderContent()}</div>
     </div>
-  )
+  );
 };
-
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
       margin: theme.spacing(1),
     },
-  }),
+  })
 );
-
 
 export default Home;
