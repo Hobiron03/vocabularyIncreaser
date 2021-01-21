@@ -149,14 +149,15 @@ JWT_AUTH = {
 }
 
 # 許可するオリジン
-# CORS_ORIGIN_WHITELIST = [
-#     'http://localhost:3000',
-#     'https://localhost:3000',
-#     'https://wordcollection-f6f0c.web.app/',
-# ]
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'https://localhost:3000',
+    'https://wordcollection-f6f0c.web.app/',
+    "https://google.com/*"
+]
 # レスポンスを公開する
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = False
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 
 django_heroku.settings(locals())
