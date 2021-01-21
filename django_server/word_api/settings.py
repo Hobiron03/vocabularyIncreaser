@@ -155,9 +155,8 @@ JWT_AUTH = {
 #     'https://wordcollection-f6f0c.web.app/',
 # ]
 # レスポンスを公開する
-CORS_ALLOW_CREDENTIALS = True
-
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = False
 
 
 django_heroku.settings(locals())
