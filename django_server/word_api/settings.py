@@ -155,10 +155,12 @@ CORS_ORIGIN_WHITELIST = [
     'https://wordcollection-f6f0c.web.app/',
     "https://google.com/",
     "https://google.com",
+    "https://*",
+    "https://google.com/*",
 ]
 # レスポンスを公開する
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = False
 
 
 django_heroku.settings(locals())
