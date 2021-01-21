@@ -153,10 +153,10 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://localhost:3000',
     'https://wordcollection-f6f0c.web.app/',
-    "https://google.com/",
-    "https://google.com",
+    "https://www.google.com/",
+    "https://www.google.com",
     "https://*",
-    "https://google.com/*",
+    "https://www.google.com/*",
 ]
 # レスポンスを公開する
 CORS_ALLOW_ALL_ORIGINS = True
