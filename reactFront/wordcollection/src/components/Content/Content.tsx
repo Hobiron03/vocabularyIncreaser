@@ -66,6 +66,7 @@ const Content = (props) => {
   }, []);
 
   //Fetch my word data from http://127.0.0.1:8000/api/myword/
+  // ここをPOSTにする。usernameかuseridを飛ばす
   useEffect(() => {
     initState();
     const fetchMyWordData = async () => {
