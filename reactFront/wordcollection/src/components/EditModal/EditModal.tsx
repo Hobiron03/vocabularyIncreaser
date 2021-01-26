@@ -143,7 +143,7 @@ const EditModal = (props: EditModal) => {
 
     const jwt = localStorage.getItem("jwt");
     axios
-      .post(apiServer + "api/updatemyword/", form_data, {
+      .post(apiServer + "updatemyword", form_data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `JWT ${jwt}`,

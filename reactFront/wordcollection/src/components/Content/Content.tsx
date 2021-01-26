@@ -14,6 +14,7 @@ import axios from "axios";
 import apiServer from "../../APIServerLocation";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Fade from "@material-ui/core/Fade";
+import decodeJWT from "../../decode-jwt";
 
 interface wordData {
   id: number;
@@ -48,7 +49,7 @@ const Content = (props) => {
     const jwt: string | null = localStorage.getItem("jwt");
     if (jwt) {
       axios
-        .get(apiServer + "api/validation/", {
+        .get(apiServer + "validation", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `JWT ${jwt}`,
@@ -71,27 +72,37 @@ const Content = (props) => {
     initState();
     const fetchMyWordData = async () => {
       const jwt = localStorage.getItem("jwt");
-      await axios
-        .get(apiServer + "/fetchmyword/", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `JWT ${jwt}`,
-          },
-        })
-        .then((response) => {
-          response.data.forEach((wordData) => {
-            const word = wordData.fields;
-            word.id = wordData.pk;
-            dispatch({
-              type: ADD_NEW_WORD,
-              word,
-            });
+      if (jwt) {
+        const decodedJWT = decodeJWT(jwt);
+        const username = decodedJWT["username"];
+        let form_data: FormData = new FormData();
+        form_data.append("username", username);
+
+        await axios
+          .post(apiServer + "fetchmyword", form_data, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `JWT ${jwt}`,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.data != null) {
+              response.data.forEach((wordData) => {
+                const word = wordData;
+                word.id = wordData.id;
+                dispatch({
+                  type: ADD_NEW_WORD,
+                  word,
+                });
+              });
+            }
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            console.log(error);
           });
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      }
     };
     fetchMyWordData();
     // eslint-disable-next-line

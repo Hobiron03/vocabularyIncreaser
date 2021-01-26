@@ -9,6 +9,7 @@ import AppContext from "../../contexts/AppContext";
 import { ADD_NEW_WORD } from "../../actions";
 import axios from "axios";
 import apiServer from "../../APIServerLocation";
+import decodeJWT from "../../decode-jwt";
 import "./AddModal.css";
 
 interface AddModal {
@@ -118,24 +119,30 @@ const AddModal = (props: AddModal) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-
-    let form_data: FormData = new FormData();
-    form_data.append("word", word);
-    form_data.append("pronounce", pronounce);
-    form_data.append("mean", mean);
-    form_data.append("genre", genre);
-    form_data.append("color", color);
-
     const jwt = localStorage.getItem("jwt");
+    let form_data: FormData = new FormData();
+
+    if (jwt) {
+      const decodedJWT = decodeJWT(jwt);
+      const username = decodedJWT["username"];
+      form_data.append("username", username);
+      form_data.append("word", word);
+      form_data.append("pronounce", pronounce);
+      form_data.append("mean", mean);
+      form_data.append("genre", genre);
+      form_data.append("color", color);
+      form_data.append("username", username);
+    }
+
     await axios
-      .post(apiServer + "api/addmyword/", form_data, {
+      .post(apiServer + "addmyword", form_data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `JWT ${jwt}`,
         },
       })
       .then((response) => {
-        addWord.id = response.data;
+        addWord.id = response.data.id;
         addWord.user_id = 0;
         addWord.word = word;
         addWord.pronounce = pronounce;
