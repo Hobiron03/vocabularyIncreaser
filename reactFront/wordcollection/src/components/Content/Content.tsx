@@ -66,13 +66,13 @@ const Content = (props) => {
   }, []);
 
   //Fetch my word data from http://127.0.0.1:8000/api/myword/
-  // ここをPOSTにする。usernameかuseridを飛ばす
+  // ここをPOSTにする。usernameを飛ばす
   useEffect(() => {
     initState();
     const fetchMyWordData = async () => {
       const jwt = localStorage.getItem("jwt");
       await axios
-        .get(apiServer + "api/fetchmyword/", {
+        .get(apiServer + "/fetchmyword/", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `JWT ${jwt}`,
