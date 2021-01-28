@@ -53,7 +53,6 @@ const Home = (props) => {
     let form_data = new FormData();
     form_data.append("username", userName);
     form_data.append("password", password);
-    console.log(userName);
     axios
       .post(apiServer + "signin", form_data, {
         headers: {
@@ -62,8 +61,6 @@ const Home = (props) => {
       })
       .then((response) => {
         const jwt = response.data.token;
-        console.log(response);
-        console.log(jwt);
         localStorage.setItem("jwt", jwt);
         history.push("/mypage");
       })

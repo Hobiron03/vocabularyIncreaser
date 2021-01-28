@@ -86,7 +86,6 @@ const Content = (props) => {
             },
           })
           .then((response) => {
-            console.log(response);
             if (response.data != null) {
               response.data.forEach((wordData) => {
                 const word = wordData;
