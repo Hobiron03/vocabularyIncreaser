@@ -30,7 +30,7 @@ const Home = (props) => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
       axios
-        .get(apiServer + "api/validation/", {
+        .get(apiServer + "validation", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `JWT ${jwt}`,
@@ -50,11 +50,11 @@ const Home = (props) => {
     e.preventDefault();
     setIsloading(true);
 
-    let form_data: FormData = new FormData();
+    let form_data = new FormData();
     form_data.append("username", userName);
     form_data.append("password", password);
     axios
-      .post(apiServer + "api-auth/", form_data, {
+      .post(apiServer + "signin", form_data, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -78,15 +78,13 @@ const Home = (props) => {
     form_data.append("username", userName);
     form_data.append("password", password);
     axios
-      .post(apiServer + "api/signup/", form_data, {
+      .post(apiServer + "signup", form_data, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        if (response.data === 201) {
-          login(e);
-        }
+        login(e);
       })
       .catch((error) => {
         setIsloading(false);
