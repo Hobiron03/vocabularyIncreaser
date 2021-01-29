@@ -1,11 +1,30 @@
-.topic-top{
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #037DE5;
+.topic-top {
+  display: flex;
+  justify-content: space-between;
 
-    margin-top: 20px;
+  border-bottom: 1px solid #037de5;
+
+  margin-top: 20px;
 }
 
-.count-word{
-    margin-top: 3px;
+.count-word {
+  margin-top: 3px;
+}
+
+.filter-colors {
+  display: flex;
+  margin-top: 17px;
+}
+
+.filter-color {
+  height: 35px;
+  width: 38px;
+  background-color: red;
+  border-radius: 5%;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.filter-color:hover {
+  transform: scale(1.05, 1.05);
 }
