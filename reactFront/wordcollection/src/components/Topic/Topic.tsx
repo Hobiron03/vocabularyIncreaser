@@ -20,26 +20,23 @@ enum COLORS {
 const Topic = () => {
   const { dispatch } = useContext(AppContext);
   const [filterColor, setFilterColor] = useState("");
-
   const handleFilterColorClick = (color: string) => {
     dispatch({
       type: FILTER_BY_COLOR,
       filterColor: color,
     });
     setFilterColor(color);
+    // console.log(filterColor);
   };
 
   return (
     <div>
       <div className="topic-top">
-        <h3>あつめたことば</h3>
+        <h3>一覧</h3>
         <div className="filter-colors">
           <div
-            className={["filter-color", COLORS.WATERBLUE].join(" ")}
-            style={{
-              backgroundColor: COLORS.WATERBLUE,
-            }}
-            onClick={() => handleFilterColorClick(COLORS.WATERBLUE)}
+            className={["non-filter-color", COLORS.WATERBLUE].join(" ")}
+            onClick={() => handleFilterColorClick("")}
           ></div>
           <div
             className={["filter-color", COLORS.WATERBLUE].join(" ")}

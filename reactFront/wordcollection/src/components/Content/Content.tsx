@@ -129,7 +129,10 @@ const Content = (props) => {
                   //この中で色でフィルターする処理を記述する
                   console.log(state.filterColor);
                   if (state.filterColor) {
-                    if (data.color === state.filterColor) {
+                    if (
+                      data.color === state.filterColor &&
+                      state.filterColor !== ""
+                    ) {
                       return <Card key={index} wordData={data}></Card>;
                     }
                   } else {
