@@ -1,26 +1,21 @@
-import React, { useReducer } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import React, { useReducer } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import './App.css';
-import Header from './components/Header/Header';
-import Container from '@material-ui/core/Container';
-import Topic from './components/Topic/Topic';
-import Content from './components/Content/Content';
-import Home from './components/Home/Home';
-import AppContext from './contexts/AppContext';
-import reducer from './reducers';
-
+import "./App.css";
+import Header from "./components/Header/Header";
+import Container from "@material-ui/core/Container";
+import Topic from "./components/Topic/Topic";
+import Content from "./components/Content/Content";
+import Home from "./components/Home/Home";
+import AppContext from "./contexts/AppContext";
+import reducer from "./reducers";
 
 const App = () => {
-
   const initialState = {
     words: [],
-    currentGenre: ['ALL'],
+    currentGenre: ["ALL"],
     searchWord: "",
+    filterColor: "",
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -45,6 +40,6 @@ const App = () => {
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;

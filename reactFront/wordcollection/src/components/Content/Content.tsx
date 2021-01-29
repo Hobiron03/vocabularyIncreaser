@@ -124,8 +124,20 @@ const Content = (props) => {
               {state.words.map((data: wordData, index: number):
                 | JSX.Element
                 | undefined => {
+                //searchWordに何も含まれていなければ全て返す
                 if (data.word.includes(state.searchWord)) {
-                  return <Card key={index} wordData={data}></Card>;
+                  //この中で色でフィルターする処理を記述する
+                  console.log(state.filterColor);
+                  if (state.filterColor) {
+                    if (
+                      data.color === state.filterColor &&
+                      state.filterColor !== ""
+                    ) {
+                      return <Card key={index} wordData={data}></Card>;
+                    }
+                  } else {
+                    return <Card key={index} wordData={data}></Card>;
+                  }
                 }
                 return undefined;
               })}
