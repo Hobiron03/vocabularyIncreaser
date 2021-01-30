@@ -6,6 +6,8 @@ import {
   ADD_NEW_WORD,
   SET_CURRENT_GENRE,
   DELETE_ALL_WORD,
+  SET_LEVEL,
+  SET_EXPERIENCE_POINT,
 } from "../../actions";
 
 import { useHistory } from "react-router-dom";
@@ -92,11 +94,9 @@ const Content = (props) => {
                   type: ADD_NEW_WORD,
                   word,
                 });
-
-                //現在のレベルと経験値の計算
-                // calcCurrentLevel();
               });
             }
+            calcCurrentLevel(response.data.length);
             setIsLoading(false);
           })
           .catch((error) => {
@@ -107,6 +107,21 @@ const Content = (props) => {
     fetchMyWordData();
     // eslint-disable-next-line
   }, []);
+
+  const calcCurrentLevel = (wordNum) => {
+    const currentLevel = Math.floor(wordNum / 4);
+    const currentExperiencePoint = (wordNum % 4) * 25;
+
+    dispatch({
+      type: SET_EXPERIENCE_POINT,
+      experiencePoint: currentExperiencePoint,
+    });
+
+    dispatch({
+      type: SET_LEVEL,
+      level: currentLevel,
+    });
+  };
 
   const renderWordList = () => {
     if (isLoading) {

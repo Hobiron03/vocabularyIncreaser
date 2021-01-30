@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./Header.css";
 import AddModal from "../AddModal/AddModal";
-import { Circle } from "rc-progress";
 import decodeJWT from "../../decode-jwt";
 import {
   fade,
