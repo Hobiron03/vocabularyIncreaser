@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Line } from "rc-progress";
 import "./LevelUpBar.css";
-import Modal from "../AddModal/AddModal";
+import LevelUpModal from "../LevelUpModal/LevelUpModal";
 
 const LevelUpBar = () => {
   const [barNum, setBarNum] = useState(1);
-  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(true);
+
   const handleBarIncrease = () => {
     setBarNum(barNum + 25);
     console.log(barNum);
     if (barNum >= 75) {
-      //モーダルの呼び出し
       setIsLevelUpModalOpen(true);
       setTimeout(() => setBarNum(0), 200);
     }
@@ -18,12 +18,11 @@ const LevelUpBar = () => {
   const toggleModalState = () => {
     // setIsDescModalOpen(false);
     setIsLevelUpModalOpen(false);
-    // console.log(`toddle!!! ${isDescModalOpen}`);
   };
 
   const isModalOpen = () => {
     if (isLevelUpModalOpen) {
-      return <Modal toggleModalState={toggleModalState}></Modal>;
+      return <LevelUpModal toggleModalState={toggleModalState}></LevelUpModal>;
     }
   };
   return (
