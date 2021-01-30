@@ -1,27 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Line } from "rc-progress";
 import "./LevelUpBar.css";
 import LevelUpModal from "../LevelUpModal/LevelUpModal";
+import { SET_EXPERIENCE_POINT } from "../../actions";
+
+import AppContext from "../../contexts/AppContext";
 
 const LevelUpBar = () => {
+  const { state, dispatch } = useContext(AppContext);
   const [barNum, setBarNum] = useState(1);
-  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(true);
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
 
-  const handleBarIncrease = () => {
-    setBarNum(barNum + 25);
-    console.log(barNum);
-    if (barNum >= 75) {
-      setIsLevelUpModalOpen(true);
-      setTimeout(() => setBarNum(0), 200);
-    }
+  const resetExperiencePoint = () => {
+    dispatch({
+      type: SET_EXPERIENCE_POINT,
+      experiencePoint: 0,
+    });
   };
+
   const toggleModalState = () => {
-    // setIsDescModalOpen(false);
     setIsLevelUpModalOpen(false);
+    resetExperiencePoint();
   };
 
   const isModalOpen = () => {
-    if (isLevelUpModalOpen) {
+    if (state.experiencePoint >= 100) {
       return <LevelUpModal toggleModalState={toggleModalState}></LevelUpModal>;
     }
   };
@@ -32,14 +35,11 @@ const LevelUpBar = () => {
       </div>
       <div className="levelUpBar__bar">
         <Line
-          percent={barNum}
+          percent={state.experiencePoint}
           trailWidth={4}
           strokeWidth={0.7}
           strokeColor="#037DE5"
         />
-      </div>
-      <div>
-        <button onClick={() => handleBarIncrease()}>push</button>
       </div>
       {isModalOpen()}
     </div>

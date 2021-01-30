@@ -16,6 +16,7 @@ const App = () => {
     currentGenre: ["ALL"],
     searchWord: "",
     filterColor: "",
+    experiencePoint: 1,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
