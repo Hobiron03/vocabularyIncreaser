@@ -1,0 +1,11 @@
+.LevelUpBar {
+  height: 40px;
+  display: flex;
+
+  align-items: baseline;
+}
+
+.levelUpBar__bar {
+  margin-left: 10px;
+  width: 94%;
+}

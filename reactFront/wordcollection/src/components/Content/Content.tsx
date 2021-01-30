@@ -118,6 +118,7 @@ const Content = (props) => {
     } else {
       return (
         <div>
+          {/* <h3>一覧： </h3> */}
           <p>{state.words.length} words</p>
           <Fade in={!isLoading} {...(!isLoading ? { timeout: 600 } : {})}>
             <div className="word-list">

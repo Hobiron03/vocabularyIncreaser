@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./Header.css";
 import AddModal from "../AddModal/AddModal";
+import { Circle } from "rc-progress";
 import decodeJWT from "../../decode-jwt";
 import {
   fade,
@@ -329,6 +330,9 @@ const Header = () => {
           >
             <PostAddRoundedIcon fontSize="large" />
           </IconButton>
+          <div className="degree">
+            <h3>称号: 駆け出し冒険者</h3>
+          </div>
         </Toolbar>
       </AppBar>
       {AddModalWindow()}
