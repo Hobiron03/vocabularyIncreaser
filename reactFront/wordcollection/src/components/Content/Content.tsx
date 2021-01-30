@@ -66,8 +66,6 @@ const Content = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  //Fetch my word data from http://127.0.0.1:8000/api/myword/
-  // ここをPOSTにする。usernameを飛ばす
   useEffect(() => {
     initState();
     const fetchMyWordData = async () => {
@@ -94,6 +92,9 @@ const Content = (props) => {
                   type: ADD_NEW_WORD,
                   word,
                 });
+
+                //現在のレベルと経験値の計算
+                // calcCurrentLevel();
               });
             }
             setIsLoading(false);

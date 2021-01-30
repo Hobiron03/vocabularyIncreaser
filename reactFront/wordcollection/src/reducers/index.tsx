@@ -4,6 +4,7 @@ import currentGenre from "./currentGenre";
 import searchWord from "./searchWord";
 import filterColor from "./filterColor";
 import experiencePoint from "./experiencePoint";
+import level from "./level";
 
 export default combineReducers({
   words,
@@ -11,4 +12,5 @@ export default combineReducers({
   searchWord,
   filterColor,
   experiencePoint,
+  level,
 });

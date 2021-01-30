@@ -1,16 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Line } from "rc-progress";
 import "./LevelUpBar.css";
 import LevelUpModal from "../LevelUpModal/LevelUpModal";
-import { SET_EXPERIENCE_POINT } from "../../actions";
+import { SET_EXPERIENCE_POINT, SET_LEVEL } from "../../actions";
 
 import AppContext from "../../contexts/AppContext";
 
 const LevelUpBar = () => {
   const { state, dispatch } = useContext(AppContext);
-  const [barNum, setBarNum] = useState(1);
-  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
-
   const resetExperiencePoint = () => {
     dispatch({
       type: SET_EXPERIENCE_POINT,
@@ -19,8 +16,11 @@ const LevelUpBar = () => {
   };
 
   const toggleModalState = () => {
-    setIsLevelUpModalOpen(false);
     resetExperiencePoint();
+    dispatch({
+      type: SET_LEVEL,
+      level: state.level + 1,
+    });
   };
 
   const isModalOpen = () => {
@@ -31,7 +31,7 @@ const LevelUpBar = () => {
   return (
     <div className="LevelUpBar">
       <div>
-        <h3>Lv. 32</h3>
+        <h3>Lv. {state.level}</h3>
       </div>
       <div className="levelUpBar__bar">
         <Line

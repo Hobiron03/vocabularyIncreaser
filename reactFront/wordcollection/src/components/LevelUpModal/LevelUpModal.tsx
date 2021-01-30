@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import "./LevelUpModal.css";
+import AppContext from "../../contexts/AppContext";
 
 interface LelevUpModalProps {
   toggleModalState: Function;
 }
 
 const LevelUpModal = (props: LelevUpModalProps) => {
+  const { state } = useContext(AppContext);
+
   const [open, setOpen] = useState(true);
 
   const useStyles = makeStyles((theme: Theme) =>
@@ -52,9 +55,9 @@ const LevelUpModal = (props: LelevUpModalProps) => {
           <div className={classes.paper}>
             <h1 className="paper__levelUp">Level UP!!</h1>
             <div className="paper__display_diff">
-              <h1 className="paper__display_diff__before">Lv. 32</h1>
+              <h1 className="paper__display_diff__before">Lv. {state.level}</h1>
               <ChevronRightIcon fontSize="large"></ChevronRightIcon>
-              <h1 className="paper__display_diff__after">33</h1>
+              <h1 className="paper__display_diff__after">{state.level + 1}</h1>
             </div>
             <p className="paper__levelUp__desc">
               おめでとう！！これからもまだまだがんばろう

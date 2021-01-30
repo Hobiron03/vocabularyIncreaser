@@ -17,6 +17,7 @@ const App = () => {
     searchWord: "",
     filterColor: "",
     experiencePoint: 1,
+    level: 1,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
