@@ -95,8 +95,8 @@ const Content = (props) => {
                   word,
                 });
               });
+              calcCurrentLevel(response.data.length);
             }
-            calcCurrentLevel(response.data.length);
             setIsLoading(false);
           })
           .catch((error) => {
@@ -109,6 +109,9 @@ const Content = (props) => {
   }, []);
 
   const calcCurrentLevel = (wordNum) => {
+    if (wordNum === undefined) {
+      return;
+    }
     const currentLevel = Math.floor(wordNum / 4);
     const currentExperiencePoint = (wordNum % 4) * 25;
 
