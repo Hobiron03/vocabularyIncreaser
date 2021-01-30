@@ -6,7 +6,7 @@ import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import AppContext from "../../contexts/AppContext";
-import { ADD_NEW_WORD } from "../../actions";
+import { ADD_NEW_WORD, SET_EXPERIENCE_POINT } from "../../actions";
 import axios from "axios";
 import apiServer from "../../APIServerLocation";
 import decodeJWT from "../../decode-jwt";
@@ -36,7 +36,7 @@ enum COLORS {
 }
 
 const AddModal = (props: AddModal) => {
-  const { dispatch } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
 
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -114,6 +114,13 @@ const AddModal = (props: AddModal) => {
     setGenre(e.target.value);
   };
 
+  const handleBarIncrease = () => {
+    dispatch({
+      type: SET_EXPERIENCE_POINT,
+      experiencePoint: state.experiencePoint + 25,
+    });
+  };
+
   //todo: post にidをいれる
   const handleAddButtonClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -155,6 +162,7 @@ const AddModal = (props: AddModal) => {
           word: addWord,
         });
 
+        handleBarIncrease();
         handleClose();
       })
       .catch((error) => {

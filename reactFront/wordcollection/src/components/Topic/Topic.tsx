@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import "./Topic.css";
 import AppContext from "../../contexts/AppContext";
 import { FILTER_BY_COLOR } from "../../actions/index";
+import LevelUpBar from "../LevelUpBar/LevelUpBar";
 
 interface filterColor {
   filterColor: string;
@@ -31,6 +32,7 @@ const Topic = () => {
 
   return (
     <div>
+      <LevelUpBar></LevelUpBar>
       <div className="topic-top">
         <h3>一覧</h3>
         <div className="filter-colors">

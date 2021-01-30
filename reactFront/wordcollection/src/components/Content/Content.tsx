@@ -6,6 +6,8 @@ import {
   ADD_NEW_WORD,
   SET_CURRENT_GENRE,
   DELETE_ALL_WORD,
+  SET_LEVEL,
+  SET_EXPERIENCE_POINT,
 } from "../../actions";
 
 import { useHistory } from "react-router-dom";
@@ -66,8 +68,6 @@ const Content = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  //Fetch my word data from http://127.0.0.1:8000/api/myword/
-  // ここをPOSTにする。usernameを飛ばす
   useEffect(() => {
     initState();
     const fetchMyWordData = async () => {
@@ -96,6 +96,7 @@ const Content = (props) => {
                 });
               });
             }
+            calcCurrentLevel(response.data.length);
             setIsLoading(false);
           })
           .catch((error) => {
@@ -106,6 +107,21 @@ const Content = (props) => {
     fetchMyWordData();
     // eslint-disable-next-line
   }, []);
+
+  const calcCurrentLevel = (wordNum) => {
+    const currentLevel = Math.floor(wordNum / 4);
+    const currentExperiencePoint = (wordNum % 4) * 25;
+
+    dispatch({
+      type: SET_EXPERIENCE_POINT,
+      experiencePoint: currentExperiencePoint,
+    });
+
+    dispatch({
+      type: SET_LEVEL,
+      level: currentLevel,
+    });
+  };
 
   const renderWordList = () => {
     if (isLoading) {
@@ -118,6 +134,7 @@ const Content = (props) => {
     } else {
       return (
         <div>
+          {/* <h3>一覧： </h3> */}
           <p>{state.words.length} words</p>
           <Fade in={!isLoading} {...(!isLoading ? { timeout: 600 } : {})}>
             <div className="word-list">

@@ -11,6 +11,12 @@ export const SET_SEARCH_WORD = "SET_SEARCH_WORD";
 //filter by color
 export const FILTER_BY_COLOR = "FILTER_BY_COLOR";
 
+//set experiene color
+export const SET_EXPERIENCE_POINT = "SET_EXPERIENCE_POINT";
+
+//set level
+export const SET_LEVEL = "SET_LEVEL";
+
 //genre
 export const SET_CURRENT_GENRE = "SET_CURRENT_GENRE";
 export const ALL_GENRE = "ALL_GENRE";
