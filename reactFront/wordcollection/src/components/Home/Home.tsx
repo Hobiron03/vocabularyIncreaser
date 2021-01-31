@@ -219,7 +219,27 @@ const Home = (props) => {
         </div>
       </div>
 
-      <div className="home__content">コンテンツ</div>
+      <div className="home__content">
+        <div className="home__content__topic">
+          <h1>知らない言葉との出会いを楽しもう</h1>
+          <p className="home__content__topic__desc">
+            知らないことは恥ずかしいことではない、自分を高めるチャンスだ
+          </p>
+          <div className="button">
+            <p>はじめる</p>
+          </div>
+        </div>
+
+        <div className="home__content__save-card">
+          <h1>知らない言葉との出会いを楽しもう</h1>
+          <p className="home__content__topic__desc">
+            知らないことは恥ずかしいことではない、自分を高めるチャンスだ
+          </p>
+          <div className="button">
+            <p>はじめる</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

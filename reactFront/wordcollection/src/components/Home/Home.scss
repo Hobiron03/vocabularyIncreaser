@@ -71,6 +71,7 @@ $header-height: 75px;
 
 .home {
   height: 3000px;
+  background-color: white;
   &__header {
     position: fixed;
     display: flex;
@@ -101,12 +102,32 @@ $header-height: 75px;
 
   &__content {
     padding-top: $header-height;
+
+    &__topic {
+      color: $normal-font-color;
+      padding-top: 80px;
+      text-align: center;
+      margin: 0px auto;
+      margin-bottom: 60px;
+      h1 {
+        font-size: 50px;
+      }
+
+      &__desc {
+        font-size: 20px;
+      }
+    }
+
+    &__save-card {
+      background-color: $dominant-color;
+      height: 600px;
+    }
   }
 }
 
 .button {
   font-size: 15px;
-
+  margin: 0 auto;
   text-align: center;
   color: $button-font-color;
   font-weight: bold;
