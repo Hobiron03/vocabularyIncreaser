@@ -289,7 +289,10 @@ const Home = (props) => {
           <div className="button" onClick={() => handleOpen()}>
             <p>ログイン</p>
           </div>
-          <div className="button" onClick={() => handleSignUpModalOpen()}>
+          <div
+            className="button home__header__right__signup"
+            onClick={() => handleSignUpModalOpen()}
+          >
             <p>新規登録</p>
           </div>
         </div>
