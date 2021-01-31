@@ -96,6 +96,11 @@ $header-height: 75px;
 
     &__right {
       margin-right: 20px;
+      display: flex;
+
+      div {
+        margin-right: 10px;
+      }
     }
   }
 
@@ -193,7 +198,7 @@ $header-height: 75px;
   border-radius: 5px;
   border: 1px solid #007fe1;
   height: 50px;
-  width: 170px;
+  width: 150px;
 
   transition: all 0.2s;
   &:hover {
@@ -205,4 +210,19 @@ $header-height: 75px;
   &:active {
     transform: scale(0.95, 0.95);
   }
+}
+
+.paper__title {
+  color: $normal-font-color;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.paper__form {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.failed-login {
+  color: rgb(211, 62, 62);
 }
