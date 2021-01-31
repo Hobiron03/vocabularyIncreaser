@@ -70,7 +70,6 @@ $dominant-color: #007fe1;
 $header-height: 75px;
 
 .home {
-  height: 3000px;
   background-color: white;
   &__header {
     position: fixed;
@@ -108,9 +107,9 @@ $header-height: 75px;
       padding-top: 80px;
       text-align: center;
       margin: 0px auto;
-      margin-bottom: 60px;
+      margin-bottom: 50px;
       h1 {
-        font-size: 50px;
+        font-size: 45px;
       }
 
       &__desc {
@@ -120,7 +119,66 @@ $header-height: 75px;
 
     &__save-card {
       background-color: $dominant-color;
-      height: 600px;
+
+      text-align: center;
+      padding-top: 30px;
+
+      h1 {
+        color: $button-font-color;
+      }
+
+      &__img {
+        width: 600px;
+      }
+
+      &__desc {
+        color: $button-font-color;
+        padding-bottom: 25px;
+        margin: 0;
+      }
+    }
+
+    &__arrange-color {
+      background-color: rgb(247, 247, 247);
+
+      text-align: center;
+      padding-top: 30px;
+
+      h1 {
+        color: $normal-font-color;
+      }
+
+      &__img {
+        width: 1000px;
+      }
+
+      &__desc {
+        color: $normal-font-color;
+        padding-bottom: 25px;
+        margin: 0;
+      }
+    }
+
+    &__start {
+      background-color: rgb(247, 247, 247);
+
+      text-align: center;
+      padding-top: 15px;
+      padding-bottom: 30px;
+
+      h1 {
+        color: $normal-font-color;
+      }
+
+      &__img {
+        width: 1000px;
+      }
+
+      &__desc {
+        color: $normal-font-color;
+        padding-bottom: 25px;
+        margin: 0;
+      }
     }
   }
 }
@@ -132,7 +190,7 @@ $header-height: 75px;
   color: $button-font-color;
   font-weight: bold;
   background-color: $dominant-color;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid #007fe1;
   height: 50px;
   width: 170px;

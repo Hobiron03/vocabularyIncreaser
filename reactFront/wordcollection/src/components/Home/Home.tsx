@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./Home.scss";
 import logo from "../../images/W.png";
+import saveCardImg from "../../images/saveCard.png";
+import cardsImg from "../../images/cards.png";
+
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -214,11 +217,10 @@ const Home = (props) => {
         </div>
         <div className="home__header__right">
           <div className="button">
-            <p>ログイン/新規登録</p>
+            <p>ログイン / 新規登録</p>
           </div>
         </div>
       </div>
-
       <div className="home__content">
         <div className="home__content__topic">
           <h1>知らない言葉との出会いを楽しもう</h1>
@@ -231,12 +233,49 @@ const Home = (props) => {
         </div>
 
         <div className="home__content__save-card">
-          <h1>知らない言葉との出会いを楽しもう</h1>
-          <p className="home__content__topic__desc">
-            知らないことは恥ずかしいことではない、自分を高めるチャンスだ
+          <img
+            src={saveCardImg}
+            alt="アイコン"
+            className="home__content__save-card__img"
+          />
+          <h1>言葉をカード形式で保存</h1>
+          <p className="home__content__save-card__desc">
+            意味や読み方ジャンルなども合わせて保存できます。
           </p>
-          <div className="button">
-            <p>はじめる</p>
+        </div>
+
+        <div className="home__content__arrange-color">
+          <img
+            src={cardsImg}
+            alt="アイコン"
+            className="home__content__arrange-color__img"
+          />
+          <div className="home__content__arrange-color__arange-card">
+            <h1>多彩な色でカードを作成</h1>
+            <p className="home__content__arrange-color__desc">
+              6色の中から選ぶことができます。
+            </p>
+          </div>
+        </div>
+
+        <div className="home__content__save-card">
+          <img
+            src={saveCardImg}
+            alt="アイコン"
+            className="home__content__save-card__img"
+          />
+          <h1>レベルをあげて称号をGETしよう</h1>
+          <p className="home__content__save-card__desc">
+            ことばをどんどんあつめて経験値を貯めよう。
+          </p>
+        </div>
+
+        <div className="home__content__start">
+          <div className="home__content__start">
+            <h1>さあ、はじめよう！</h1>
+            <div className="button">
+              <p>はじめる</p>
+            </div>
           </div>
         </div>
       </div>
