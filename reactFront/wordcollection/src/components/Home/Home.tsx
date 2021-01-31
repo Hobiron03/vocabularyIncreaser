@@ -5,16 +5,12 @@ import logo from "../../images/W.png";
 import saveCardImg from "../../images/saveCard.png";
 import cardsImg from "../../images/cards.png";
 
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 
 import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
 
 import apiServer from "../../APIServerLocation";
 
