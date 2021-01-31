@@ -1,0 +1,129 @@
+/* .logout {
+  margin-bottom: 50px;
+}
+
+.failed-login {
+  color: red;
+  font-weight: bold;
+}
+
+.title {
+  text-align: center;
+  margin-top: 0;
+  color: rgb(80, 79, 79);
+  font-weight: bold;
+  font-size: 50px;
+  color: white;
+}
+
+.subtitle {
+  text-align: center;
+  color: rgb(80, 79, 79);
+  font-size: 30px;
+  color: white;
+}
+
+.home {
+  margin: 50px auto;
+  height: 800px;
+  border: #037de5 solid 2px;
+  width: 800px;
+  background-color: #6979f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.under-home {
+  background-color: white;
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 500px;
+}
+
+.signup-form {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 500px;
+}
+
+.topic {
+  margin: 80px auto;
+} */
+$normal-font-color: #2c546a;
+$button-font-color: white;
+$dominant-color: #007fe1;
+$header-height: 75px;
+
+.home {
+  height: 3000px;
+  &__header {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: $header-height;
+    background-color: white;
+    border-bottom: 1px solid rgba(194, 194, 194, 0.568);
+
+    &__left {
+      color: $normal-font-color;
+      display: flex;
+      align-items: center;
+      margin-left: 20px;
+      font-size: 20px;
+      font-weight: bold;
+
+      p {
+        margin-left: 10px;
+      }
+    }
+
+    &__right {
+      margin-right: 20px;
+    }
+  }
+
+  &__content {
+    padding-top: $header-height;
+  }
+}
+
+.button {
+  font-size: 15px;
+
+  text-align: center;
+  color: $button-font-color;
+  font-weight: bold;
+  background-color: $dominant-color;
+  border-radius: 10px;
+  border: 1px solid #007fe1;
+  height: 50px;
+  width: 170px;
+
+  transition: all 0.2s;
+  &:hover {
+    cursor: pointer;
+    color: $dominant-color;
+    background-color: $button-font-color;
+  }
+
+  &:active {
+    transform: scale(0.95, 0.95);
+  }
+}

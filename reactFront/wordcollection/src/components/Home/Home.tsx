@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "./Home.css";
-
 import { useHistory } from "react-router-dom";
-import axios from "axios";
-
+import "./Home.scss";
+import logo from "../../images/W.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import axios from "axios";
 
 import apiServer from "../../APIServerLocation";
 
@@ -208,11 +207,19 @@ const Home = (props) => {
 
   return (
     <div className="home">
-      <div className="topic">
-        <h1 className="title">ことばあつめ</h1>
-        <h2 className="subtitle">知らない言葉を集めて知識を増やそう</h2>
+      <div className="home__header">
+        <div className="home__header__left">
+          <img src={logo} alt="アイコン" width="25px" height="25px" />
+          <p>ことばあつめ</p>
+        </div>
+        <div className="home__header__right">
+          <div className="button">
+            <p>ログイン/新規登録</p>
+          </div>
+        </div>
       </div>
-      <div className="under-home">{cardUnderContent()}</div>
+
+      <div className="home__content">コンテンツ</div>
     </div>
   );
 };
