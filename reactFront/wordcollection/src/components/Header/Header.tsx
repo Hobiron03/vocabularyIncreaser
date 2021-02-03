@@ -26,6 +26,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import returnMyDegree from "../returnMyDegree";
 
 import axios from "axios";
 import apiServer from "../../APIServerLocation";
@@ -37,7 +38,7 @@ import AppContext from "../../contexts/AppContext";
 const Header = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { dispatch } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -63,6 +64,11 @@ const Header = () => {
       type: "SET_SEARCH_WORD",
       searchWord: e.target.value,
     });
+  };
+
+  const returnCurrentLevel = (): number => {
+    const currentLevel: number = Math.floor(state.words.length / 4) + 1;
+    return currentLevel;
   };
 
   const handleClickOpen = () => {
@@ -304,7 +310,7 @@ const Header = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography className={classes.title} variant="h5" noWrap>
             ことばあつめ
           </Typography>
           <div className={classes.search}>
@@ -312,7 +318,7 @@ const Header = () => {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder="ことばを検索"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -330,7 +336,7 @@ const Header = () => {
             <PostAddRoundedIcon fontSize="large" />
           </IconButton>
           <div className="degree">
-            <h3>称号: 駆け出し冒険者</h3>
+            <h3> 称号: {returnMyDegree(returnCurrentLevel())}</h3>
           </div>
         </Toolbar>
       </AppBar>

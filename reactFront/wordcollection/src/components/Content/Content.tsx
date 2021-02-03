@@ -112,7 +112,9 @@ const Content = (props) => {
     if (wordNum === undefined) {
       return;
     }
-    const currentLevel = Math.floor(wordNum / 4);
+    console.log("wordNum");
+    console.log(wordNum);
+    const currentLevel = Math.floor(wordNum / 4) + 1;
     const currentExperiencePoint = (wordNum % 4) * 25;
 
     dispatch({
@@ -147,7 +149,7 @@ const Content = (props) => {
                 //searchWordに何も含まれていなければ全て返す
                 if (data.word.includes(state.searchWord)) {
                   //この中で色でフィルターする処理を記述する
-                  console.log(state.filterColor);
+
                   if (state.filterColor) {
                     if (
                       data.color === state.filterColor &&
