@@ -380,6 +380,7 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       display: "none",
       fontWeight: "bold",
+      cursor: "pointer",
       [theme.breakpoints.up("md")]: {
         display: "block",
       },

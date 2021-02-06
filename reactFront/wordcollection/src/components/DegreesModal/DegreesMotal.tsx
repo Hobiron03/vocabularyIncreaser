@@ -1,10 +1,9 @@
 import React, { useState, useContext } from "react";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import Degree from "./Degree/Degree";
 import "./DegreesModal.scss";
-import returnMyDegree from "../returnMyDegree";
 import AppContext from "../../contexts/AppContext";
 
 interface LelevUpModalProps {
@@ -29,7 +28,7 @@ const LevelUpModal = (props: LelevUpModalProps) => {
         boxShadow: theme.shadows[5],
         border: `3px solid #087aff`,
         padding: theme.spacing(2, 4, 3),
-        width: 450,
+        width: 420,
         transition: "all 0.2s",
       },
       colorBallet: {
@@ -38,25 +37,6 @@ const LevelUpModal = (props: LelevUpModalProps) => {
     })
   );
   const classes = useStyles();
-
-  const displayGetDegree = () => {
-    if (returnMyDegree(state.level) === returnMyDegree(state.level + 1)) {
-      return (
-        <p className="paper__levelUp__desc">
-          おめでとう！！これからもまだまだがんばろう
-        </p>
-      );
-    } else {
-      return (
-        <p className="paper__levelUp__desc">
-          称号獲得!{" "}
-          <span className="paper__levelUp__desc__degree">
-            「{returnMyDegree(state.level + 1)}」
-          </span>
-        </p>
-      );
-    }
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -73,13 +53,54 @@ const LevelUpModal = (props: LelevUpModalProps) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h1 className="paper__levelUp">Level UP!!</h1>
-            <div className="paper__display_diff">
-              <h1 className="paper__display_diff__before">Lv. {state.level}</h1>
-              <ChevronRightIcon fontSize="large"></ChevronRightIcon>
-              <h1 className="paper__display_diff__after">{state.level + 1}</h1>
+            <h1 className="paper__degree">獲得した称号一覧</h1>
+            <div className="paper__degree__degrees">
+              <Degree
+                currentLevel={state.level}
+                degreeLevel={1}
+                degree="名もなき者"
+              ></Degree>
+              <Degree
+                currentLevel={state.level}
+                degreeLevel={2}
+                degree="かけ出し冒険者"
+              ></Degree>
+              <Degree
+                currentLevel={state.level}
+                degreeLevel={4}
+                degree="勉強熱心"
+              ></Degree>
+              <Degree
+                currentLevel={state.level}
+                degreeLevel={5}
+                degree="ことばマニア"
+              ></Degree>
+              <Degree
+                currentLevel={state.level}
+                degreeLevel={7}
+                degree="世界一のボキャブラリー"
+              ></Degree>
+              <Degree
+                currentLevel={state.level}
+                degreeLevel={9}
+                degree="言語学者"
+              ></Degree>
+              <Degree
+                currentLevel={state.level}
+                degreeLevel={11}
+                degree="創生者"
+              ></Degree>
+              <Degree
+                currentLevel={state.level}
+                degreeLevel={13}
+                degree="名を冠する者"
+              ></Degree>
+              <Degree
+                currentLevel={state.level}
+                degreeLevel={15}
+                degree="神"
+              ></Degree>
             </div>
-            {displayGetDegree()}
           </div>
         </Fade>
       </Modal>
