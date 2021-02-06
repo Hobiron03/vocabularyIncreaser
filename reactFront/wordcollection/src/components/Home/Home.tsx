@@ -28,8 +28,6 @@ const Home = (props) => {
 
   const [isLoading, setIsloading] = useState<boolean>(false);
 
-  //ログインは、ローカルストレージにjwtトークンが入っているか確認。入っていればGETリクエストを流してOKだったらisAuthenticatedをtrue。ない場合はそのままHomeを表示
-  //GETしてダメだったらそのまま
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {

@@ -22,4 +22,9 @@
 .paper__levelUp__desc {
   text-align: center;
   font-weight: bold;
+  font-size: 20px;
+  &__degree {
+    color: #ff4a4a;
+    font-size: 30px;
+  }
 }

@@ -3,7 +3,8 @@ import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import "./LevelUpModal.css";
+import "./LevelUpModal.scss";
+import returnMyDegree from "../returnMyDegree";
 import AppContext from "../../contexts/AppContext";
 
 interface LelevUpModalProps {
@@ -38,6 +39,25 @@ const LevelUpModal = (props: LelevUpModalProps) => {
   );
   const classes = useStyles();
 
+  const displayGetDegree = () => {
+    if (returnMyDegree(state.level) === returnMyDegree(state.level + 1)) {
+      return (
+        <p className="paper__levelUp__desc">
+          おめでとう！！これからもまだまだがんばろう
+        </p>
+      );
+    } else {
+      return (
+        <p className="paper__levelUp__desc">
+          称号獲得!{" "}
+          <span className="paper__levelUp__desc__degree">
+            「{returnMyDegree(state.level + 1)}」
+          </span>
+        </p>
+      );
+    }
+  };
+
   const handleClose = () => {
     setOpen(false);
     props.toggleModalState();
@@ -59,9 +79,7 @@ const LevelUpModal = (props: LelevUpModalProps) => {
               <ChevronRightIcon fontSize="large"></ChevronRightIcon>
               <h1 className="paper__display_diff__after">{state.level + 1}</h1>
             </div>
-            <p className="paper__levelUp__desc">
-              おめでとう！！これからもまだまだがんばろう
-            </p>
+            {displayGetDegree()}
           </div>
         </Fade>
       </Modal>

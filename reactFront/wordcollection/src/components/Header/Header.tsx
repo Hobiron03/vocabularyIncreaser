@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./Header.css";
+import "./Header.scss";
 import AddModal from "../AddModal/AddModal";
 import decodeJWT from "../../decode-jwt";
 import {
@@ -26,6 +26,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import DegreesModal from "../DegreesModal/DegreesMotal";
+import returnMyDegree from "../returnMyDegree";
 
 import axios from "axios";
 import apiServer from "../../APIServerLocation";
@@ -37,10 +39,11 @@ import AppContext from "../../contexts/AppContext";
 const Header = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { dispatch } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDegreeModalOpen, setIsDegreeModalOpen] = useState<boolean>(false);
   const [usrName, setUsrName] = useState<string>("");
 
   const [open, setOpen] = useState(false);
@@ -63,6 +66,11 @@ const Header = () => {
       type: "SET_SEARCH_WORD",
       searchWord: e.target.value,
     });
+  };
+
+  const returnCurrentLevel = (): number => {
+    const currentLevel: number = Math.floor(state.words.length / 4) + 1;
+    return currentLevel;
   };
 
   const handleClickOpen = () => {
@@ -171,6 +179,24 @@ const Header = () => {
 
   const toggleModalState = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const toggleDegreesModalState = () => {
+    setIsDegreeModalOpen(!isDegreeModalOpen);
+  };
+
+  const toggleDegreesModalOpen = () => {
+    setIsDegreeModalOpen(true);
+  };
+
+  const degreeModal = () => {
+    if (isDegreeModalOpen) {
+      return (
+        <DegreesModal toggleModalState={toggleDegreesModalState}></DegreesModal>
+      );
+    } else {
+      return;
+    }
   };
 
   const logout = () => {
@@ -291,7 +317,7 @@ const Header = () => {
         </div>
       </Drawer>
 
-      <AppBar position="sticky" style={{ background: "#037DE5" }}>
+      <AppBar position="sticky" style={{ background: "#087AFF" }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -304,7 +330,7 @@ const Header = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography className={classes.title} variant="h5" noWrap>
             ことばあつめ
           </Typography>
           <div className={classes.search}>
@@ -312,7 +338,7 @@ const Header = () => {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder="ことばを検索"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -329,9 +355,13 @@ const Header = () => {
           >
             <PostAddRoundedIcon fontSize="large" />
           </IconButton>
-          <div className="degree">
-            <h3>称号: 駆け出し冒険者</h3>
+          <div
+            className={classes.title}
+            onClick={() => toggleDegreesModalOpen()}
+          >
+            <h3> 称号: {returnMyDegree(returnCurrentLevel())}</h3>
           </div>
+          {degreeModal()}
         </Toolbar>
       </AppBar>
       {AddModalWindow()}
@@ -349,7 +379,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       display: "none",
-      [theme.breakpoints.up("sm")]: {
+      fontWeight: "bold",
+      cursor: "pointer",
+      [theme.breakpoints.up("md")]: {
         display: "block",
       },
     },
@@ -383,7 +415,7 @@ const useStyles = makeStyles((theme: Theme) =>
     inputInput: {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      paddingLeft: `calc(1em + ${theme.spacing(5)}px)`,
       transition: theme.transitions.create("width"),
       width: "100%",
       [theme.breakpoints.up("md")]: {
