@@ -72,32 +72,32 @@ const LevelUpModal = (props: LelevUpModalProps) => {
               ></Degree>
               <Degree
                 currentLevel={state.level}
-                degreeLevel={5}
+                degreeLevel={6}
                 degree="ことばマニア"
               ></Degree>
               <Degree
                 currentLevel={state.level}
-                degreeLevel={7}
+                degreeLevel={8}
                 degree="世界一のボキャブラリー"
               ></Degree>
               <Degree
                 currentLevel={state.level}
-                degreeLevel={9}
+                degreeLevel={10}
                 degree="言語学者"
               ></Degree>
               <Degree
                 currentLevel={state.level}
-                degreeLevel={11}
+                degreeLevel={12}
                 degree="創生者"
               ></Degree>
               <Degree
                 currentLevel={state.level}
-                degreeLevel={13}
+                degreeLevel={14}
                 degree="名を冠する者"
               ></Degree>
               <Degree
                 currentLevel={state.level}
-                degreeLevel={15}
+                degreeLevel={16}
                 degree="神"
               ></Degree>
             </div>

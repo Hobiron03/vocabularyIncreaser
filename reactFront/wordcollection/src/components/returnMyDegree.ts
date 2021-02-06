@@ -6,7 +6,7 @@ const returnMyDegree = (level: number): string => {
     degree = "かけ出し冒険者";
   } else if (level > 2 && level <= 4) {
     degree = "かけ出し冒険者";
-  } else if (level > 4 && level <= 5) {
+  } else if (level === 5) {
     degree = "勉強熱心";
   } else if (level > 5 && level <= 7) {
     degree = "ことばマニア";
