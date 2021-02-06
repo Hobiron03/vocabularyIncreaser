@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./Header.css";
+import "./Header.scss";
 import AddModal from "../AddModal/AddModal";
 import decodeJWT from "../../decode-jwt";
 import {
@@ -26,6 +26,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import DegreesModal from "../DegreesModal/DegreesMotal";
 import returnMyDegree from "../returnMyDegree";
 
 import axios from "axios";
@@ -42,6 +43,7 @@ const Header = () => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDegreeModalOpen, setIsDegreeModalOpen] = useState<boolean>(false);
   const [usrName, setUsrName] = useState<string>("");
 
   const [open, setOpen] = useState(false);
@@ -179,6 +181,24 @@ const Header = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const toggleDegreesModalState = () => {
+    setIsDegreeModalOpen(!isDegreeModalOpen);
+  };
+
+  const toggleDegreesModalOpen = () => {
+    setIsDegreeModalOpen(true);
+  };
+
+  const degreeModal = () => {
+    if (isDegreeModalOpen) {
+      return (
+        <DegreesModal toggleModalState={toggleDegreesModalState}></DegreesModal>
+      );
+    } else {
+      return;
+    }
+  };
+
   const logout = () => {
     localStorage.setItem("jwt", "");
     dispatch({
@@ -297,7 +317,7 @@ const Header = () => {
         </div>
       </Drawer>
 
-      <AppBar position="sticky" style={{ background: "#037DE5" }}>
+      <AppBar position="sticky" style={{ background: "#087AFF" }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -335,9 +355,13 @@ const Header = () => {
           >
             <PostAddRoundedIcon fontSize="large" />
           </IconButton>
-          <div className="degree">
+          <div
+            className={classes.title}
+            onClick={() => toggleDegreesModalOpen()}
+          >
             <h3> 称号: {returnMyDegree(returnCurrentLevel())}</h3>
           </div>
+          {degreeModal()}
         </Toolbar>
       </AppBar>
       {AddModalWindow()}
@@ -355,7 +379,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       display: "none",
-      [theme.breakpoints.up("sm")]: {
+      fontWeight: "bold",
+      [theme.breakpoints.up("md")]: {
         display: "block",
       },
     },
@@ -389,7 +414,7 @@ const useStyles = makeStyles((theme: Theme) =>
     inputInput: {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      paddingLeft: `calc(1em + ${theme.spacing(5)}px)`,
       transition: theme.transitions.create("width"),
       width: "100%",
       [theme.breakpoints.up("md")]: {
