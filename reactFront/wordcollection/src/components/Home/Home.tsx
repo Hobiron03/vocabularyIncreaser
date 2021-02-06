@@ -4,6 +4,7 @@ import "./Home.scss";
 import logo from "../../images/W.png";
 import saveCardImg from "../../images/saveCard.png";
 import cardsImg from "../../images/cards.png";
+import degreeImg from "../../images/degree.png";
 
 import TextField from "@material-ui/core/TextField";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -330,7 +331,7 @@ const Home = (props) => {
 
         <div className="home__content__save-card">
           <img
-            src={saveCardImg}
+            src={degreeImg}
             alt="アイコン"
             className="home__content__save-card__img"
           />
