@@ -23,6 +23,7 @@ const LevelUpBar = () => {
     });
   };
 
+  // state.experiencePoint >= 100
   const isModalOpen = () => {
     if (state.experiencePoint >= 100) {
       return <LevelUpModal toggleModalState={toggleModalState}></LevelUpModal>;
